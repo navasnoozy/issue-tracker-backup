@@ -4,7 +4,7 @@ import { Button } from "@radix-ui/themes";
 function Home() {
   return (
     <div>
-      <Button>new issues</Button>
+     home
     </div>
   );
 }
