@@ -1,7 +1,12 @@
-import Image from "next/image";
+// app/page.tsx
+import { Button } from "@radix-ui/themes";
 
 function Home() {
-  return <div>bismillah</div>;
-};
+  return (
+    <div>
+      <Button>new issues</Button>
+    </div>
+  );
+}
 
 export default Home;

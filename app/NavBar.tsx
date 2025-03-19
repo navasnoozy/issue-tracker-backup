@@ -22,7 +22,7 @@ const NavBar = () => {
         {NavLinks.map((link) => (
           <li
             key={link.href}
-            className={`${currentPath === link.href ? "text-black underline underline-offset-4" : ""}  hover:text-black ease-in-out  hover:scale-120 transition-all `}
+            className={`${currentPath === link.href ? "text-black underline underline-offset-6" : ""}  hover:text-black ease-in-out  hover:scale-120 transition-all `}
           >
             <Link href={link.href}>{link.label}</Link>
           </li>
