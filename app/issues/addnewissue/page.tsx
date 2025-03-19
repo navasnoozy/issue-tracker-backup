@@ -5,26 +5,42 @@ const SimpleMDE = dynamic(()=> import ("react-simplemde-editor"),{
 })
 import "easymde/dist/easymde.min.css";
 
-import { Button, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
+import { RxInfoCircled } from "react-icons/rx";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface IssueFormType {
   title: string;
-  desription: string;
+  description: string;
 }
 
 const Newpage = () => {
-  const { register, control, handleSubmit } = useForm();
+  const { register, control, handleSubmit } = useForm<IssueFormType>();
   const router = useRouter();
 
+  const [error, setError] = useState('');
+
   return (
+    <div className="max-w-md space-y-5 shadow-2xl p-6 rounded-md">
+        {error && <Callout.Root color="red" >
+            <Callout.Icon>
+		<RxInfoCircled />
+	</Callout.Icon>
+                
+        <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>}
     <form
-      className="max-w-md space-y-5 shadow-2xl p-6 rounded-md"
+      className="space-y-5"
       onSubmit={handleSubmit(async (data) => {
+       try {
         await axios.post("/api/issues",data);
         router.push('/issues')
+       } catch (error) {
+        setError('An unexpected Error occured')
+       }
       })}
     >
       <TextField.Root placeholder="Title" {...register("title")} />
@@ -36,6 +52,7 @@ const Newpage = () => {
 
       <Button type="submit">Create Issue</Button>
     </form>
+    </div>
   );
 };
 
