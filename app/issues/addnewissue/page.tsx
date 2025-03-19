@@ -5,7 +5,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 });
 import "easymde/dist/easymde.min.css";
 
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, Spinner, Text, TextField } from "@radix-ui/themes";
 import { RxInfoCircled } from "react-icons/rx";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
@@ -23,7 +23,7 @@ const Newpage = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isSubmitting },
   } = useForm<IssueFormType>({
     resolver: zodResolver(createIssueSchema),
   });
@@ -63,7 +63,7 @@ const Newpage = () => {
         />
         <ErrorMessage children={errors.description?.message} />
 
-        <Button type="submit">Create Issue</Button>
+        <Button type="submit">Create Issue {isSubmitting && <Spinner />}</Button>
       </form>
     </div>
   );
