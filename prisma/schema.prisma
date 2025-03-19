@@ -13,13 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model Issue {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String   @unique @db.VarChar(255)
   description String   @db.Text
   status      Status   @default(OPEN)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+ 
 }
 
 enum Status {
