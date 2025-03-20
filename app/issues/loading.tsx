@@ -1,6 +1,6 @@
 import { Button, Skeleton, Table } from "@radix-ui/themes";
 
-const LoadingIssuePage = () => {
+const LoadingIssuesPage = () => {
   const skeletonRows = [1, 2, 3, 4];
   return (
     <div className="space-y-5 max-w-7xl w-[100%] ">
@@ -42,4 +42,4 @@ const LoadingIssuePage = () => {
   );
 };
 
-export default LoadingIssuePage;
+export default LoadingIssuesPage;

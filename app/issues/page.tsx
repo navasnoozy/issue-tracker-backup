@@ -30,7 +30,10 @@ const IssuesPage = async () => {
           <Table.Body>
             {issues.map((issue) => (
               <Table.Row key={issue.id}>
-                <Table.RowHeaderCell>{issue.title}</Table.RowHeaderCell>
+                <Table.RowHeaderCell>
+                  <Link href={`/issues/${issue.id}`}>{issue.title} </Link>
+                </Table.RowHeaderCell>
+
                 <Table.Cell>
                   <StatusBadge status={issue.status} />
                 </Table.Cell>
