@@ -30,8 +30,11 @@ export default function RootLayout({
         <Theme accentColor="cyan" radius="small">
       
           <NavBar />
-          <main className="p-6">
+          <main className="p-6 flex justify-center">
+          <div className="max-w-7xl flex justify-center w-[100%] ">
           {children}
+          </div>
+      
           </main>
         </Theme>
       </body>

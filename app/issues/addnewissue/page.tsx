@@ -43,7 +43,7 @@ const Newpage = () => {
 
 
   return (
-    <div className="max-w-xl space-y-5 shadow-2xl p-6 rounded-md">
+    <div className="max-w-xl w-[100%] space-y-5 shadow-2xl p-6 rounded-md">
       {error && (
         <Callout.Root color="red">
           <Callout.Icon>
