@@ -1,4 +1,4 @@
-import { Box, Card, Flex, Heading, Separator, Text } from "@radix-ui/themes";
+import { Box, Card, Flex, Heading, Separator, Text,  } from "@radix-ui/themes";
 import { prisma } from "../../../prisma/client";
 import { notFound } from "next/navigation";
 import StatusBadge from "@/app/components/issueStatusBadge";
@@ -21,7 +21,7 @@ const IssueDetailsPage = async ({ params }: PropsType) => {
   if (!issue) notFound;
 
   return (
-    <Card className=" w-[100%] md:w-[70%] space-y-4">
+    <Card className=" w-[100%] md:w-[80%] space-y-4">
       <Flex justify={"between"} className="flex-col md:flex-row">
         <Flex className="flex-col h-full gap-2 ">
           <Heading>{issue?.title}</Heading>

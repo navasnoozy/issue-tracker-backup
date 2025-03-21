@@ -1,7 +1,7 @@
 //app/layout.tsx
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
- import { Work_Sans } from "next/font/google";
+ import { Work_Sans  } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
 import { Theme } from "@radix-ui/themes";
