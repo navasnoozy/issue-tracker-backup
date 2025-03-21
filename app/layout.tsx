@@ -1,15 +1,19 @@
 //app/layout.tsx
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+ import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 
-const inter = Inter({
-  variable: "--font-Inter",
+ const workSans = Work_Sans({
+  variable: "--font-Work_Sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: false, // Disable font preloading to avoid fetch issues
+  adjustFontFallback: false
 });
+
 
 
 export const metadata: Metadata = {
@@ -25,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable}`}
+        className={`${workSans.variable}`}
       >
         <Theme accentColor="cyan" radius="small">
       

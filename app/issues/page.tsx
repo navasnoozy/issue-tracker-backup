@@ -1,10 +1,12 @@
 import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { prisma } from "../../prisma/client";
+import {prisma} from '@/prisma/client'
 import StatusBadge from "../components/issueStatusBadge";
 
 const IssuesPage = async () => {
-  let issues = await prisma.issue.findMany();
+  const issues = await prisma.issue.findMany();
+
+  if (!issues) return <div>Issues not found</div>
 
   return (
     <div className="space-y-5 max-w-7xl w-[100%] ">
