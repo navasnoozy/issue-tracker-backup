@@ -2,6 +2,8 @@ import { Box, Card, Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { prisma } from "../../../prisma/client";
 import { notFound } from "next/navigation";
 import StatusBadge from "@/app/components/issueStatusBadge";
+import Markdown from "react-markdown";
+
 
 interface PropsType {
   params: Promise<{ id: string }>;
@@ -19,13 +21,12 @@ const IssueDetailsPage = async ({ params }: PropsType) => {
   if (!issue) notFound;
 
   return (
-    <Card className=" w-[100%] space-y-4">
+    <Card className=" w-[100%] md:w-[70%] space-y-4">
       <Flex justify={"between"} className="flex-col md:flex-row">
-      <Flex className="flex-col h-full gap-2 ">
-        <Heading>{issue?.title}</Heading>
-        <StatusBadge status={issue!.status} />
+        <Flex className="flex-col h-full gap-2 ">
+          <Heading>{issue?.title}</Heading>
+          <StatusBadge status={issue!.status} />
         </Flex>
-     
 
         <Flex className="flex-col h-full ">
           <Text>
@@ -38,9 +39,11 @@ const IssueDetailsPage = async ({ params }: PropsType) => {
           </Text>
         </Flex>
       </Flex>
- 
-      <Card className=" bg-gray-200"  size="1">
-        {issue?.description}
+
+      <Card className="w-full mt-6 prose prose-sm md:prose-lg lg:prose-2xl  " >
+        <Markdown skipHtml={false}>
+          {issue?.description}
+        </Markdown>
       </Card>
     </Card>
   );
