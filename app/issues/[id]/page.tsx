@@ -1,15 +1,19 @@
-import { Box, Card, Flex, Heading, Separator, Text,  } from "@radix-ui/themes";
+import { Box, Card, Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { prisma } from "../../../prisma/client";
 import { notFound } from "next/navigation";
 import StatusBadge from "@/app/components/issueStatusBadge";
 import Markdown from "react-markdown";
 
+import delay from 'delay'
 
 interface PropsType {
   params: Promise<{ id: string }>;
 }
 
 const IssueDetailsPage = async ({ params }: PropsType) => {
+
+  await delay(2000)
+
   const { id } = await params;
 
   const issue = await prisma.issue.findUnique({
@@ -21,7 +25,7 @@ const IssueDetailsPage = async ({ params }: PropsType) => {
   if (!issue) notFound;
 
   return (
-    <Card className=" w-[100%] md:w-[80%] space-y-4">
+    <Card className=" w-[100%] lg:w-[80%] space-y-4">
       <Flex justify={"between"} className="flex-col md:flex-row">
         <Flex className="flex-col h-full gap-2 ">
           <Heading>{issue?.title}</Heading>
@@ -40,10 +44,8 @@ const IssueDetailsPage = async ({ params }: PropsType) => {
         </Flex>
       </Flex>
 
-      <Card className="w-full mt-6 prose prose-sm md:prose-lg lg:prose-2xl  " >
-        <Markdown skipHtml={false}>
-          {issue?.description}
-        </Markdown>
+      <Card className="w-full mt-6 prose prose-sm md:prose-lg lg:prose-2xl  ">
+        <Markdown skipHtml={false}>{issue?.description}</Markdown>
       </Card>
     </Card>
   );

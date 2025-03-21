@@ -18,7 +18,9 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueFormType = z.infer<typeof createIssueSchema>;
 
-const Newpage = () => {
+const Newpage =  () => {
+
+
     const router = useRouter();
     const [error, setError] = useState("");
 

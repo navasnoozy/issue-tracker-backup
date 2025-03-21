@@ -3,8 +3,11 @@ import CustomLink from "../components/CustomLink";
 import NextLink from "next/link";
 import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
+import delay from 'delay'
 
 const IssuesPage = async () => {
+
+    await delay(2000)
   const issues = await prisma.issue.findMany();
 
   if (!issues) return <div>Issues not found</div>;
@@ -12,7 +15,7 @@ const IssuesPage = async () => {
   return (
     <div className="space-y-5 max-w-7xl w-[100%] ">
       <div>
-        {" "}
+       
         <Button>
           <NextLink href={"/issues/addnewissue"}>Create Issue</NextLink>
         </Button>
