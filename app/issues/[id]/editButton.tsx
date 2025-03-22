@@ -7,7 +7,7 @@ const EditButton = async ({id}:{id:string})=>{
   
     return (
         <Card className="w-full lg:max-w-3xl  space-y-4">
-            <Button><Pencil /><Link href={`/issues/${id}/edit`}>Edit</Link></Button>
+            <Button><Pencil /><Link href={`/issues/${id}/edit`}>Edit Issue</Link></Button>
         </Card>
     )
 };

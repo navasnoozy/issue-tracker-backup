@@ -1,20 +1,16 @@
 //app/layout.tsx
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
- import { Work_Sans  } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
 import { Theme } from "@radix-ui/themes";
 
- const workSans = Work_Sans({
-  variable: "--font-Work_Sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  preload: false, // Disable font preloading to avoid fetch issues
-  adjustFontFallback: false
 });
-
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,17 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${workSans.variable}`}
-      >
-        <Theme accentColor="cyan" radius="small">
-      
+      <body className={`${inter.variable} inter `}>
+        <Theme accentColor="violet" radius="small">
           <NavBar />
           <main className="p-6 flex justify-center">
-          <div className="max-w-7xl flex justify-center w-[100%] ">
-          {children}
-          </div>
-      
+            <div className="max-w-7xl flex justify-center w-[100%] ">
+              {children}
+            </div>
           </main>
         </Theme>
       </body>

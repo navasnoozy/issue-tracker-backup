@@ -1,10 +1,10 @@
-import { Issue } from "@prisma/client";
-import { PropsType } from "../page";
-import { Box } from "@radix-ui/themes";
 import { prisma } from "@/prisma/client";
+import IssueForm from "../../_components/IssueForm";
+import { PropsType } from "../page";
+import { notFound } from "next/navigation";
 
 
-const issueEditPage = async ({params}:PropsType)=>{
+const IssueEditPage = async ({params}:PropsType)=>{
 
     const { id } = await params
 
@@ -14,9 +14,11 @@ const issueEditPage = async ({params}:PropsType)=>{
         }
     })
 
+    if (!issue) return notFound
+
     return (
-        <Box>{issue?.title}</Box>
+        <IssueForm issue={issue} />
 
     )
 };
-export default issueEditPage;
+export default IssueEditPage;
