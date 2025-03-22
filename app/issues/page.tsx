@@ -8,7 +8,7 @@ import delay from 'delay'
 //Issue Table List Page
 const IssuesPage = async () => {
 
-    await delay(2000)
+    await delay(1000)
   const issues = await prisma.issue.findMany();
 
   if (!issues) return <div>Issues not found</div>;

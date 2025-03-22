@@ -1,3 +1,5 @@
+// app/issues/_components/IssueForm.tsx file
+
 "use client";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -8,7 +10,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIssueSchema } from "@/app/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, Spinner, TextField } from "@radix-ui/themes";
+import { Box, Button, Callout, Select, Spinner, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,11 +18,12 @@ import { Controller, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
 import { z } from "zod";
 import { Issue } from "@prisma/client";
+import SelectStatus from "@/app/components/SelectStatus";
 
 type IssueFormType = z.infer<typeof createIssueSchema>;
 
 //ADD NEW ISSUE
-const IssueForm = ({issue}:{issue?:Issue}) => {
+const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
   const [error, setError] = useState("");
 
@@ -54,8 +57,16 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
         </Callout.Root>
       )}
       <form onSubmit={onSubmit}>
-        <TextField.Root placeholder="Title" defaultValue={issue?.title} {...register("title")} />
+        <TextField.Root
+          placeholder="Title"
+          defaultValue={issue?.title}
+          {...register("title")}
+        />
+        <input className="hidden" name={issue?.id} />
         <ErrorMessage children={errors.title?.message} />
+
+        <Box className="mt-3">{issue && <SelectStatus  status={issue?.status} />}</Box>
+
         <Controller
           name="description"
           control={control}
@@ -67,7 +78,7 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
         <ErrorMessage children={errors.description?.message} />
 
         <Button disabled={isSubmitting} type="submit">
-          Create Issue {isSubmitting && <Spinner />}
+          {issue ? 'Update Issue' : "Submit Issue "}{isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
