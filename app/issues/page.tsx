@@ -5,6 +5,7 @@ import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
 import delay from 'delay'
 
+//Issue Table List Page
 const IssuesPage = async () => {
 
     await delay(2000)
