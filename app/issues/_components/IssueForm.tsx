@@ -8,9 +8,16 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 });
 
 import ErrorMessage from "@/app/components/ErrorMessage";
-import { createIssueSchema } from "@/app/validation";
+import { IssueSchema } from "@/app/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Callout, Select, Spinner, TextField } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Callout,
+  Select,
+  Spinner,
+  TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,7 +27,7 @@ import { z } from "zod";
 import { Issue } from "@prisma/client";
 import SelectStatus from "@/app/components/SelectStatus";
 
-type IssueFormType = z.infer<typeof createIssueSchema>;
+type IssueFormType = z.infer<typeof IssueSchema>;
 
 //ADD NEW ISSUE
 const IssueForm = ({ issue }: { issue?: Issue }) => {
@@ -33,7 +40,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<IssueFormType>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(IssueSchema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
@@ -65,7 +72,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <input className="hidden" name={issue?.id} />
         <ErrorMessage children={errors.title?.message} />
 
-        <Box className="mt-3">{issue && <SelectStatus  status={issue?.status} />}</Box>
+        <Box className="mt-3">
+          {issue && <SelectStatus status={issue?.status} />}
+        </Box>
 
         <Controller
           name="description"
@@ -78,7 +87,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage children={errors.description?.message} />
 
         <Button disabled={isSubmitting} type="submit">
-          {issue ? 'Update Issue' : "Submit Issue "}{isSubmitting && <Spinner />}
+          {issue ? "Update Issue" : "Submit Issue "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
