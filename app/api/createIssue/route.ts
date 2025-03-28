@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
       data: {
         title: body.title,
         description: body.description,
+        status:body.status
       },
     });
     return NextResponse.json(newIssue, { status: 201 });

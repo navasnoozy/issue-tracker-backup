@@ -13,7 +13,15 @@ export async function PATCH(req: NextRequest) {
   if (!validate.success)
     return NextResponse.json(validate.error.errors, { status: 400 });
 
-  const issue = await prisma.issue.update({
+  const issue = await prisma.issue.findUnique({
+    where:{
+      id: body.id
+    }
+  })
+
+  if (!issue) return NextResponse.json({error:'Invalid Issue'},{status:404})
+
+  const updatedIssue = await prisma.issue.update({
     where: {
       id: body.id,
     },
@@ -24,7 +32,7 @@ export async function PATCH(req: NextRequest) {
     },
   });
 
-  return NextResponse.json(issue, { status: 200, statusText: "succsess" });
+  return NextResponse.json(updatedIssue, { status: 200, statusText: "succsess" });
 }
 
 //update Issue
