@@ -18,7 +18,7 @@ const Page = async ({ params }: PropsType) => {
     },
   });
 
-  if (!issue) return notFound;
+  if (!issue)  notFound();
   
   return (
     <Grid  width='100vw ' className="place-items-center gap-4 " columns={{md:"2"}}>

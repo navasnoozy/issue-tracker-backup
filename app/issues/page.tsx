@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
 import delay from 'delay'
+import { notFound } from "next/navigation";
 
 //Issue Table List Page
 const IssuesPage = async () => {
@@ -11,7 +12,7 @@ const IssuesPage = async () => {
     await delay(1000)
   const issues = await prisma.issue.findMany();
 
-  if (!issues) return <div>Issues not found</div>;
+  if (!issues) notFound();
 
   return (
     <div className="space-y-5 max-w-7xl w-[100%] ">

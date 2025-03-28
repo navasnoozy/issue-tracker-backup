@@ -1,7 +1,9 @@
 // app/page.tsx
 
+import { Button } from "@radix-ui/themes";
+
 async function Home() {
-  return <div>home</div>;
+  return <div><Button>Dashbaord</Button></div>;
 }
 
 export default Home;

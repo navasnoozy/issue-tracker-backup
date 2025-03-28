@@ -12,7 +12,7 @@ const statusMap: Record<
 
 const StatusBadge = ({ status }: { status: Status }) => {
   return (
-    <Badge className="w-fit" color={statusMap[status].color}>{statusMap[status].label}</Badge>
+    <Badge className="w-fit mb-2" color={statusMap[status].color}>{statusMap[status].label}</Badge>
   );
 };
 

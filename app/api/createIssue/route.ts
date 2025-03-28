@@ -3,13 +3,15 @@ import { prisma } from "../../../prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { IssueSchema } from "../../validation";
 
+// CREATE ISSUE
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const validate = IssueSchema.safeParse(body);
 
-    if (!validate.success)
+    if (!validate.success) {
       return NextResponse.json(validate.error.errors, { status: 400 });
+    }
 
     const newIssue = await prisma.issue.create({
       data: {
@@ -28,3 +30,5 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+//create Issue

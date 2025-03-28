@@ -8,26 +8,19 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 });
 
 import ErrorMessage from "@/app/components/ErrorMessage";
-import { IssueSchema } from "@/app/validation";
+import { IssueFormType, IssueSchema } from "@/app/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Box,
-  Button,
-  Callout,
-  Select,
-  Spinner,
-  TextField,
-} from "@radix-ui/themes";
+import { Issue, Status } from "@prisma/client";
+import { Box, Button, Callout, Spinner, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
 import { z } from "zod";
-import { Issue } from "@prisma/client";
 import SelectStatus from "@/app/components/SelectStatus";
 
-type IssueFormType = z.infer<typeof IssueSchema>;
+
 
 //ADD NEW ISSUE
 const IssueForm = ({ issue }: { issue?: Issue }) => {
@@ -45,7 +38,11 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("/api/issues", data);
+      if (issue) {
+        await axios.patch("/api/updateIssue", data);
+      } else {
+        await axios.post("/api/createIssue", data);
+      }
       router.push("/issues");
     } catch (error) {
       setError("An unexpected Error occured");
@@ -69,11 +66,18 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           defaultValue={issue?.title}
           {...register("title")}
         />
-        <input className="hidden" name={issue?.id} />
+        <input className="hidden" {...register("id")} value={issue?.id} />
         <ErrorMessage children={errors.title?.message} />
 
         <Box className="mt-3">
-          {issue && <SelectStatus status={issue?.status} />}
+          <Controller
+            name="status"
+            control={control}
+            defaultValue={issue?.status || "OPEN"}
+            render={({ field }) => (
+              <SelectStatus status={field?.value as Status} />
+            )}
+          />
         </Box>
 
         <Controller
@@ -86,7 +90,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         />
         <ErrorMessage children={errors.description?.message} />
 
-        <Button disabled={isSubmitting} type="submit">
+        <Button type="submit" disabled={isSubmitting}>
           {issue ? "Update Issue" : "Submit Issue "}
           {isSubmitting && <Spinner />}
         </Button>
