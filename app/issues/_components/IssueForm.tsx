@@ -2,11 +2,6 @@
 
 "use client";
 import "easymde/dist/easymde.min.css";
-import dynamic from "next/dynamic";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
-
 import ErrorMessage from "@/app/components/ErrorMessage";
 import SelectStatus from "@/app/components/SelectStatus";
 import SimpleMDETextField from "@/app/components/SimpleMDETextField";
@@ -17,7 +12,7 @@ import { Box, Button, Callout, Spinner, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {FormProvider, useForm} from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
 
 //ADD NEW ISSUE
@@ -46,6 +41,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       }
       router.push("/issues");
     } catch (error) {
+      console.error("Issue submission error:", error);
       setError("An unexpected Error occured");
     }
   });
@@ -58,7 +54,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             <Callout.Icon>
               <RxInfoCircled />
             </Callout.Icon>
-
             <Callout.Text>{error}</Callout.Text>
           </Callout.Root>
         )}
@@ -69,7 +64,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             {...register("title")}
           />
           <input className="hidden" {...register("id")} value={issue?.id} />
-          <ErrorMessage children={errors.title?.message} />
+          <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
           <Box className="mt-3">
             <SelectStatus status={issue?.status} />

@@ -1,4 +1,4 @@
-import { Box, Button, Card } from "@radix-ui/themes";
+import { Button, Card } from "@radix-ui/themes";
 import Link from "next/link";
 import { HiOutlinePencilSquare as Pencil } from "react-icons/hi2";
 
