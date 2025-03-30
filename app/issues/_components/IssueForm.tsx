@@ -1,7 +1,6 @@
 // app/issues/_components/IssueForm.tsx file
 
 "use client";
-import "easymde/dist/easymde.min.css";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import SelectStatus from "@/app/components/SelectStatus";
 import SimpleMDETextField from "@/app/components/SimpleMDETextField";
@@ -17,6 +16,8 @@ import { RxInfoCircled } from "react-icons/rx";
 
 //ADD NEW ISSUE
 const IssueForm = ({ issue }: { issue?: Issue }) => {
+
+
   const router = useRouter();
   const [error, setError] = useState("");
 
@@ -32,7 +33,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log(data);
 
       if (issue) {
         await axios.patch("/api/updateIssue", data);
@@ -48,7 +48,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
   return (
     <FormProvider {...methods}>
-      <div className="max-w-xl w-[100%] space-y-5 shadow-2xl p-6 rounded-md">
+      <div className="max-w-xl w-[100%] space-y-5  p-6 rounded-md">
         {error && (
           <Callout.Root color="red">
             <Callout.Icon>
@@ -85,5 +85,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
 
 export default IssueForm;
+
 
 

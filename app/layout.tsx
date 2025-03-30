@@ -26,12 +26,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} inter `}>
         <Theme accentColor="violet" radius="small">
-          <NavBar />
-          <main className="p-6 flex justify-center">
-            <div className="max-w-7xl flex justify-center w-[100%] ">
-              {children}
-            </div>
-          </main>
+          <div  className="container shadow-2xl rounded-md justify-self-center">
+            <NavBar />
+            <main className="p-6 flex justify-center ">
+              <div className="max-w-7xl flex justify-center w-[100%] pb-6   ">
+                {children}
+              </div>
+            </main>
+          </div>
         </Theme>
       </body>
     </html>

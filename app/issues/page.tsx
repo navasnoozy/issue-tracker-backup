@@ -3,13 +3,11 @@ import CustomLink from "../components/CustomLink";
 import NextLink from "next/link";
 import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
-import delay from 'delay'
 import { notFound } from "next/navigation";
 
 //Issue Table List Page
 const IssuesPage = async () => {
 
-    await delay(1000)
   const issues = await prisma.issue.findMany();
 
   if (!issues) notFound();

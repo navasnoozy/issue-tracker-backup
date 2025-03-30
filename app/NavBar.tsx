@@ -13,7 +13,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="flex gap-6 border border-gray-300 shadow-2xs px-6 h-14 items-center">
+    <nav className="flex w-[100%] gap-6 border-b  border-gray-200 shadow-2xs px-6 h-14 items-center ">
       <div className="hover:scale-210 transition-all">
         <VscDebugAll />
       </div>

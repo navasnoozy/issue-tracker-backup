@@ -1,10 +1,9 @@
-import dynamic from "next/dynamic";
+
 import { Controller, useFormContext } from "react-hook-form";
 import { IssueFormType } from "../validation";
 import ErrorMessage from "./ErrorMessage";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+import "easymde/dist/easymde.min.css";
+import SimpleMDE from "react-simplemde-editor";
 
 const SimpleMDETextField = ({ description }: { description?: string }) => {
   const {
