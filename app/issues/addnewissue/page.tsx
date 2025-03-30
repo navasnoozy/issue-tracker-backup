@@ -1,4 +1,3 @@
-'use client'
 import DynamicIssueForm from "../_components/DynamicIssueForm";
 
 //ADD NEW ISSUE

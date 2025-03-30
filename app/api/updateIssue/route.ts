@@ -6,7 +6,6 @@ import { IssueSchema } from "@/app/validation";
 // UPDATE ISSUE
 export async function PATCH(req: NextRequest) {
   const body: Issue = await req.json();
-  console.log("body data ", body);
 
   const validate = IssueSchema.safeParse(body);
 

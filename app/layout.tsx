@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} inter `}>
         <Theme accentColor="violet" radius="small">
-          <div  className="container shadow-2xl rounded-md justify-self-center">
+          <div  className="container mt-2 shadow-2xl rounded-md justify-self-center">
             <NavBar />
             <main className="p-6 flex justify-center ">
               <div className="max-w-7xl flex justify-center w-[100%] pb-6   ">

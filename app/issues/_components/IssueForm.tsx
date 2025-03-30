@@ -1,6 +1,4 @@
 // app/issues/_components/IssueForm.tsx file
-
-"use client";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import SelectStatus from "@/app/components/SelectStatus";
 import SimpleMDETextField from "@/app/components/SimpleMDETextField";
@@ -39,7 +37,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       } else {
         await axios.post("/api/createIssue", data);
       }
+      router.refresh()
       router.push("/issues");
+   
     } catch (error) {
       console.error("Issue submission error:", error);
       setError("An unexpected Error occured");
