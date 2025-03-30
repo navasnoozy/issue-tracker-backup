@@ -1,14 +1,9 @@
 'use client'
-import dynamic from "next/dynamic";
-import IssueFormSkeleton from "../_components/IssueFormSkeleton";
-const IssueForm = dynamic( ()=> import ("../_components/IssueForm"),{
- ssr:false,
-  loading : ()=> <IssueFormSkeleton />
-})
+import DynamicIssueForm from "../_components/DynamicIssueForm";
 
 //ADD NEW ISSUE
 const Newpage = () => {
-  return <IssueForm />;
+  return <DynamicIssueForm />
 };
 
 export default Newpage;
