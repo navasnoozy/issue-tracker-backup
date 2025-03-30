@@ -33,9 +33,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     try {
 
       if (issue) {
-        await axios.patch("/api/updateIssue", data);
+        await axios.patch("/api/issue", data);
       } else {
-        await axios.post("/api/createIssue", data);
+        await axios.post("/api/issue", data);
       }
       router.refresh()
       router.push("/issues");
