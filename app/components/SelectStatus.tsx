@@ -19,10 +19,10 @@ const SelectStatus = ({ status }: { status?: Status }) => {
             <Select.Trigger
               color={
                 field.value === "CLOSED"
-                  ? "crimson"
+                  ? "green"
                   : field.value === "IN_PROGRESS"
                   ? "orange"
-                  : "green"
+                  : "red"
               }
               variant="soft"
             />

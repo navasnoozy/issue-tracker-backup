@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { IssueSchema } from "../../validation";
-import { Issue } from "@prisma/client";
+import { Issue } from "@prisma/client"; 
 
-// CREATE ISSUE
+// CREATE ISSUE ////////
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -32,8 +32,9 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+//////////////////////////////////////////////////////
 
-//UPDATE ISSUE
+//UPDATE ISSUE /////////
 export async function PATCH(req: NextRequest) {
   const body: Issue = await req.json();
 
@@ -41,7 +42,7 @@ export async function PATCH(req: NextRequest) {
 
   if (!validate.success)
     return NextResponse.json(validate.error.errors, { status: 400 });
-
+  
   const issue = await prisma.issue.findUnique({
     where: {
       id: body.id,
@@ -67,8 +68,9 @@ export async function PATCH(req: NextRequest) {
     statusText: "succsess",
   });
 }
+/////////////////////////////////////////////////////
 
-//DELETE ISSUE
+//DELETE ISSUE //////
 export async function DELETE(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
@@ -79,6 +81,7 @@ export async function DELETE(req: NextRequest) {
       error.name = "NO_ID"
       throw error
     }
+
 
     const deletedIssue = await prisma.issue.delete({
       where: {
