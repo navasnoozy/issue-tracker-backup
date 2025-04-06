@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
 import { Theme } from "@radix-ui/themes";
+import AuthProvider from "./auth/AuthProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} inter `}>
-        <Theme accentColor="violet" radius="small">
+    <AuthProvider>
+        <Theme accentColor="violet" radius="small" >
           <div  className="container mt-2 shadow-2xl rounded-md justify-self-center">
             <NavBar />
             <main className="p-6 flex justify-center ">
@@ -35,6 +37,7 @@ export default function RootLayout({
             </main>
           </div>
         </Theme>
+        </AuthProvider>
       </body>
     </html>
   );

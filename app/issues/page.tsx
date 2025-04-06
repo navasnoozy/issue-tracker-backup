@@ -1,4 +1,4 @@
-import { Button, Table } from "@radix-ui/themes";
+import { Button, Table, Text } from "@radix-ui/themes";
 import CustomLink from "../components/CustomLink";
 import NextLink from "next/link";
 import { prisma } from "@/prisma/client";
@@ -34,6 +34,12 @@ const IssuesPage = async () => {
           </Table.Header>
 
           <Table.Body>
+          {issues.length === 0  && <Table.Row >
+            <Table.Cell justify={"center"}  colSpan={3}> <Text color="gray" weight="medium" align="center">
+                Issue list is empty
+              </Text></Table.Cell>
+            </Table.Row>}
+          
             {issues.map((issue) => (
               <Table.Row key={issue.id}>
                 <Table.RowHeaderCell>
