@@ -3,8 +3,7 @@ import Link from "next/link";
 import { VscDebugAll } from "react-icons/vsc";
 import { usePathname } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Flex, Avatar, Box } from "@radix-ui/themes";
-import AuthButton from "./components/AuthButton";
+import { Flex, Avatar, Box, DropdownMenu } from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -22,7 +21,10 @@ const NavBar = () => {
     signOut();
   };
   return (
-    <Flex justify={"between"} className="flex justify-between w-full  border-b   border-gray-200  shadow-2xs px-6 h-14   ">
+    <Flex
+      justify={"between"}
+      className="flex justify-between w-full  border-b   border-gray-200  shadow-2xs px-6 h-14   "
+    >
       <Flex className="gap-6 items-center">
         <Box className="hover:scale-210 transition-all ">
           <VscDebugAll />
@@ -44,17 +46,31 @@ const NavBar = () => {
       </Flex>
 
       <Flex className="items-center gap-6">
-        {session && (
-          <Avatar
-            size="2"
-            referrerPolicy="no-referrer"
-            src={session?.user?.image!}
-            radius="full"
-            fallback="A"
-          />
+        {/* signout button */}
+        {status === "authenticated" && (
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger className="cursor-pointer">
+              <Avatar
+                size="2"
+                referrerPolicy="no-referrer"
+                src={session?.user?.image!}
+                radius="full"
+                fallback="A"
+              />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content variant="soft">
+              <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
+              <DropdownMenu.Item color="red">
+                <Link href={`/api/auth/signout`}>Signout</Link>
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         )}
 
-        <AuthButton />
+        {/* Sigin button */}
+        {status === "unauthenticated" && (
+          <Link href={`/api/auth/signin`}>Signin</Link>
+        )}
       </Flex>
     </Flex>
   );
