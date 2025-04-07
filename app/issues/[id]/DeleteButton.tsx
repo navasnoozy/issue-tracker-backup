@@ -3,8 +3,10 @@ import { AlertDialog, Button, Flex, Spinner } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MdDeleteForever } from "react-icons/md";
 
-const DeleteButton = ({ issueId }: { issueId: string }) => {
+
+const DeleteButton = ({ issueId, session }: { issueId: string, session:boolean }) => {
   const router = useRouter();
   const [error, setError] = useState(false);
   const [isDeleting, setIsDeleting] = useState (false)
@@ -26,8 +28,9 @@ const DeleteButton = ({ issueId }: { issueId: string }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button disabled={isDeleting} size="3" color="red">
-            Delete  {isDeleting && <Spinner size='3' />}
+          <Button disabled={isDeleting || !session} size="3" color="red">
+          <MdDeleteForever size='20' />
+           Delete  {isDeleting && <Spinner size='3' />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content maxWidth="450px">

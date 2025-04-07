@@ -50,12 +50,12 @@ body {
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: black;
+  background-color:rgb(123, 31, 162);
   transition: width 0.4s ease, left 0.4s ease;
 }
 
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
-  left: 0;
+  left:0;
 }

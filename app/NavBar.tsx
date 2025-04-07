@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession} from "next-auth/react";
 import { Flex, Avatar, Box, DropdownMenu } from "@radix-ui/themes";
 
 const NavBar = () => {
@@ -26,7 +26,7 @@ export default NavBar;
 //Logo icon////
 const LogoIcon = () => {
   return (
-    <Box className="hover:scale-210 transition-all cursor-pointer ">
+    <Box className="hover:scale-210 transition-all cursor-pointer text-violet-700 ">
       <FaBug />
     </Box>
   );
@@ -34,6 +34,7 @@ const LogoIcon = () => {
 
 //NavLinks
 const NavLinks = () => {
+ 'use client'
   const currentPath = usePathname();
 
   const NavLinks = [
@@ -65,10 +66,12 @@ const NavLinks = () => {
 
 //User profile/////
 const UserProfile = () => {
+  'use client'
   const { data: session, status } = useSession();
+  const currentPath = usePathname();
 
   if (status === "unauthenticated")
-    return <Link className=" text-gray-600" href={`/api/auth/signin`}>Signin</Link>;
+    return <Link className=" text-gray-600" href={`/api/auth/signin?callbackUrl=${currentPath}`}>Signin</Link>;
 
   return (
     <>
@@ -87,7 +90,7 @@ const UserProfile = () => {
           <DropdownMenu.Content variant="soft">
             <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
             <DropdownMenu.Item color="red">
-              <Link href={`/api/auth/signout`}>Signout</Link>
+              <Link href={`/api/auth/signout?callbackUrl=/`}>Signout</Link>
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>

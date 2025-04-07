@@ -4,6 +4,7 @@ import { prisma } from "../../../prisma/client";
 import IssueDetailsPage from "./IssueDetailsPage";
 import EditButton from "./editButton";
 import DeleteButton from "./DeleteButton";
+import { getServerSession } from "next-auth";
 
 export interface PropsType {
   params: Promise<{ id: string }>;
@@ -11,6 +12,8 @@ export interface PropsType {
 
 const Page = async ({ params }: PropsType) => {
   const { id } = await params;
+  const session = await getServerSession();
+  const authenticated = !!session
 
   const issue = await prisma.issue.findUnique({
     where: {
@@ -30,8 +33,8 @@ const Page = async ({ params }: PropsType) => {
         <IssueDetailsPage issue={issue} />
       </Box>
       <Flex direction="column" gap="2" className="w-sm lg:max-w-3xl  space-y-4">
-        <EditButton id={issue.id} />
-        <DeleteButton issueId={issue.id} />
+        <EditButton id={issue.id} session={authenticated} />
+        <DeleteButton issueId={issue.id} session={authenticated} />
       </Flex>
     </Grid>
   );

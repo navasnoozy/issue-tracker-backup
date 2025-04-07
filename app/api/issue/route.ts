@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { IssueSchema } from "../../validation";
-import { Issue } from "@prisma/client"; 
+import { Issue } from "@prisma/client";
+import { getServerSession } from "next-auth";
 
 // CREATE ISSUE ////////
 export async function POST(req: NextRequest) {
+  const session = await getServerSession();
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   try {
     const body = await req.json();
     const validate = IssueSchema.safeParse(body);
@@ -36,13 +40,16 @@ export async function POST(req: NextRequest) {
 
 //UPDATE ISSUE /////////
 export async function PATCH(req: NextRequest) {
+  const session = await getServerSession();
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const body: Issue = await req.json();
 
   const validate = IssueSchema.safeParse(body);
 
   if (!validate.success)
     return NextResponse.json(validate.error.errors, { status: 400 });
-  
+
   const issue = await prisma.issue.findUnique({
     where: {
       id: body.id,
@@ -72,16 +79,18 @@ export async function PATCH(req: NextRequest) {
 
 //DELETE ISSUE //////
 export async function DELETE(req: NextRequest) {
+  const session = await getServerSession();
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   try {
     const id = req.nextUrl.searchParams.get("id");
 
     if (!id) {
       console.log("No id Provided");
-      const error =   new Error("No id Provided");
-      error.name = "NO_ID"
-      throw error
+      const error = new Error("No id Provided");
+      error.name = "NO_ID";
+      throw error;
     }
-
 
     const deletedIssue = await prisma.issue.delete({
       where: {
@@ -94,7 +103,8 @@ export async function DELETE(req: NextRequest) {
       deletedIssue,
     });
   } catch (error: any) {
-    if (error.name === 'NO_ID')  return NextResponse.json({ error: "No id Provided" }, { status: 404 });
+    if (error.name === "NO_ID")
+      return NextResponse.json({ error: "No id Provided" }, { status: 404 });
 
     if (error.error.code === "P2025") {
       return NextResponse.json({ error: "Issue not found" }, { status: 404 });
@@ -106,5 +116,3 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
-
-
