@@ -6,6 +6,7 @@ import "./globals.css";
 import NavBar from "./NavBar";
 import { Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/AuthProvider";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} inter `}>
+        <QueryClientProvider>
     <AuthProvider>
         <Theme accentColor="violet" radius="small" >
           <div  className="container mt-2 shadow-2xl rounded-md justify-self-center">
@@ -38,6 +40,7 @@ export default function RootLayout({
           </div>
         </Theme>
         </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
