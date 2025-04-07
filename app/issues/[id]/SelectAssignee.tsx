@@ -1,23 +1,17 @@
 "use client";
-import { User } from "@prisma/client";
-import { Select } from "@radix-ui/themes";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import useUsers from "@/app/hooks/useUsers";
+import { Select, Spinner } from "@radix-ui/themes";
 
 const AssigneeSelect = () => {
-  const [users, setUsers] = useState<User[]>();
+  const { data : users, error, isLoading } = useUsers();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const { data } = await axios.get<User[]>("/api/users");
-      setUsers(data);
-    };
-    fetchUsers();
-  }, []);
+  if (error) return null
 
   return (
-    <Select.Root size="3" >
-      <Select.Trigger placeholder="Assignee..." />
+    <Select.Root size="3">
+      <Select.Trigger placeholder='Assignee'>
+        {isLoading && <Spinner />}
+      </Select.Trigger>
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggetions</Select.Label>
