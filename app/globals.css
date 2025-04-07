@@ -41,3 +41,21 @@ body {
 	--default-font-family: var(--font-inter);
   font-size: clamp(18px, 1vw, 20px);
 }
+
+/* Underline grows from center */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  transition: width 0.4s ease, left 0.4s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+  left: 0;
+}
