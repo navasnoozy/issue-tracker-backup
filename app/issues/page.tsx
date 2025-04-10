@@ -5,25 +5,41 @@ import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
 import { notFound } from "next/navigation";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
+import { FaSort } from "react-icons/fa";
 
 interface Props {
-  searchParams: Promise<{ status: Status }>;
+  searchParams: Promise<{ status: Status; orderBy: keyof Issue }>;
 }
 
 //Issue Table List Page
 const IssuesPage = async ({ searchParams }: Props) => {
-  let { status } = await searchParams;
+  let { status, orderBy } = await searchParams;
 
   let statusFilter = Object.values(Status).includes(status)
     ? status
     : undefined;
 
-    let issues = await prisma.issue.findMany({
-      where: {
-        status: statusFilter,
-      },
-    });
+  let issues = await prisma.issue.findMany({
+    where: {
+      status: statusFilter,
+    },
+  });
+
+  const tableColTitles: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Title", value: "title" },
+    { label: "Status", value: "status" },
+    {
+      label: "Description",
+      value: "description",
+      className: "hidden md:table-cell",
+    },
+    { label: "Created", value: "createdAt" },
+  ];
 
   if (!issues) notFound();
 
@@ -39,12 +55,25 @@ const IssuesPage = async ({ searchParams }: Props) => {
         <Table.Root variant="surface">
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="hidden md:table-cell">
-                Description
-              </Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
+              {tableColTitles.map((column) => (
+                <Table.ColumnHeaderCell
+                  key={column.value}
+                  className={column.className}
+                >
+                  <NextLink
+                    href={{
+                      pathname: "issues",
+                      query: {
+                        status: status,
+                        orderBy: column.value,
+                      },
+                    }}
+                  >
+                    {column.label}
+                    {column.value === orderBy && <FaSort className="inline" />}
+                  </NextLink>
+                </Table.ColumnHeaderCell>
+              ))}
             </Table.Row>
           </Table.Header>
 
@@ -54,7 +83,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
                 <Table.Cell justify={"center"} colSpan={3}>
                   {" "}
                   <Text color="gray" weight="medium" align="center">
-                    Issue list is empty
+                    {statusFilter
+                      ? `No issues found with status "${statusFilter}"`
+                      : "Issue list is empty"}
                   </Text>
                 </Table.Cell>
               </Table.Row>
@@ -72,7 +103,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                   <StatusBadge status={issue.status} />
                 </Table.Cell>
                 <Table.Cell className="hidden md:table-cell">
-                  {issue.description}
+                  {issue.description.substring(0, 30)}....
                 </Table.Cell>
                 <Table.Cell>{issue.createdAt.toDateString()}</Table.Cell>
               </Table.Row>

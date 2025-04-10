@@ -7,8 +7,8 @@ const EditButton = async ({ id, session }: { id: string, session:boolean }) => {
   if (!session) return    <Button disabled size="3"> <Pencil /> Edit Issue</Button>
 
   return (
-    <Button  size="3">
-      <Link  className="flex gap-2 items-center" href={`/issues/${id}/edit`}>
+    <Button asChild size="3">
+      <Link   className="flex gap-2 items-center" href={`/issues/${id}/edit`}>
         <Pencil />
         Edit Issue
       </Link>
