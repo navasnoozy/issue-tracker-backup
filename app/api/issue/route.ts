@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
-import { IssueSchema } from "../../validation";
+import { baseIssueSchema, patchIssueSchema } from "../../validation";
 import { Issue } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
@@ -12,7 +12,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const validate = IssueSchema.safeParse(body);
+    console.log("RECHED TO VALIDATE");
+
+    const validate = baseIssueSchema.safeParse(body);
+    console.log("COMPLETE VALIDATE");
 
     if (!validate.success) {
       return NextResponse.json(validate.error.errors, { status: 400 });
@@ -40,33 +43,43 @@ export async function POST(req: NextRequest) {
 
 //UPDATE ISSUE /////////
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession();
-  if (!session) return NextResponse.json({}, { status: 401 });
+  // const session = await getServerSession();
+  // if (!session) return NextResponse.json({}, { status: 401 });
 
   const body: Issue = await req.json();
 
-  const validate = IssueSchema.safeParse(body);
+  const validate = patchIssueSchema.safeParse(body);
+  const { id, title, description, status, assignToUserId } = body;
+  
+
+  if (assignToUserId) {
+    const user = await prisma.user.findUnique({
+      where: { id:assignToUserId },
+    });
+
+    if (!user) return NextResponse.json({ error: "Invalid User Id" });
+  }
 
   if (!validate.success)
     return NextResponse.json(validate.error.errors, { status: 400 });
 
   const issue = await prisma.issue.findUnique({
     where: {
-      id: body.id,
+      id
     },
   });
 
-  if (!issue)
-    return NextResponse.json({ error: "Invalid Issue" }, { status: 404 });
+  if (!issue) return NextResponse.json({ error: "Invalid Issue" }, { status: 404 });
 
   const updatedIssue = await prisma.issue.update({
     where: {
-      id: body.id,
+      id:issue.id
     },
     data: {
-      title: body.title,
-      description: body.description,
-      status: body.status,
+      title,
+      description,
+      status,
+      assignToUserId 
     },
   });
 

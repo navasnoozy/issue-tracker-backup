@@ -2,7 +2,7 @@
 import ErrorMessage from "@/app/components/ErrorMessage";
 import SelectStatus from "@/app/components/SelectStatus";
 import SimpleMDETextField from "@/app/components/SimpleMDETextField";
-import { IssueFormType, IssueSchema } from "@/app/validation";
+import { IssueFormType, baseIssueSchema, patchIssueSchema } from "@/app/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Box, Button, Callout, Spinner, TextField } from "@radix-ui/themes";
@@ -20,7 +20,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const [error, setError] = useState("");
 
   const methods = useForm<IssueFormType>({
-    resolver: zodResolver(IssueSchema),
+    resolver: zodResolver(baseIssueSchema),
   });
 
   const {
