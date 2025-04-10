@@ -19,7 +19,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const handleChange = async (userId: string) => {
     const assignToUserId = userId === "unassigned" ? null : userId;
     await axios
-      .patch("/xapi/issue", { id: issue.id, assignToUserId })
+      .patch("/api/issue", { id: issue.id, assignToUserId }).then(()=>toast('Saved'))
       .catch(() => toast("Change could not be saved"));
   };
 
