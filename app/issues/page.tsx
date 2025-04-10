@@ -5,10 +5,25 @@ import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
 import { notFound } from "next/navigation";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
+import { Status } from "@prisma/client";
+
+interface Props {
+  searchParams: Promise<{ status: Status }>;
+}
 
 //Issue Table List Page
-const IssuesPage = async () => {
-  const issues = await prisma.issue.findMany();
+const IssuesPage = async ({ searchParams }: Props) => {
+  let { status } = await searchParams;
+
+  let statusFilter = Object.values(Status).includes(status)
+    ? status
+    : undefined;
+
+    let issues = await prisma.issue.findMany({
+      where: {
+        status: statusFilter,
+      },
+    });
 
   if (!issues) notFound();
 
@@ -19,7 +34,7 @@ const IssuesPage = async () => {
         <Button>
           <NextLink href={"/issues/addnewissue"}>Create Issue</NextLink>
         </Button>
-      </Flex >
+      </Flex>
       <div>
         <Table.Root variant="surface">
           <Table.Header>
