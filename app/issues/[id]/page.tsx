@@ -5,7 +5,7 @@ import IssueDetailsPage from "./IssueDetailsPage";
 import EditButton from "./editButton";
 import DeleteButton from "./DeleteButton";
 import { getServerSession } from "next-auth";
-import AssigneeSelect from "./SelectAssignee";
+import AssigneeSelect from "../_components/SelectAssignee";
 
 export interface PropsType {
   params: Promise<{ id: string }>;

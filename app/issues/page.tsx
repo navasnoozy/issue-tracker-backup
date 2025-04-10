@@ -1,25 +1,25 @@
-import { Button, Table, Text } from "@radix-ui/themes";
+import { Button, Flex, Table, Text } from "@radix-ui/themes";
 import CustomLink from "../components/CustomLink";
 import NextLink from "next/link";
 import { prisma } from "@/prisma/client";
 import StatusBadge from "../components/issueStatusBadge";
 import { notFound } from "next/navigation";
+import IssueStatusFilter from "./_components/IssueStatusFilter";
 
 //Issue Table List Page
 const IssuesPage = async () => {
-
   const issues = await prisma.issue.findMany();
 
   if (!issues) notFound();
 
   return (
     <div className="space-y-5 max-w-7xl w-[100%] ">
-      <div>
-       
+      <Flex justify={"between"}>
+        <IssueStatusFilter />
         <Button>
           <NextLink href={"/issues/addnewissue"}>Create Issue</NextLink>
         </Button>
-      </div>
+      </Flex >
       <div>
         <Table.Root variant="surface">
           <Table.Header>
@@ -34,16 +34,23 @@ const IssuesPage = async () => {
           </Table.Header>
 
           <Table.Body>
-          {issues.length === 0  && <Table.Row >
-            <Table.Cell justify={"center"}  colSpan={3}> <Text color="gray" weight="medium" align="center">
-                Issue list is empty
-              </Text></Table.Cell>
-            </Table.Row>}
-          
+            {issues.length === 0 && (
+              <Table.Row>
+                <Table.Cell justify={"center"} colSpan={3}>
+                  {" "}
+                  <Text color="gray" weight="medium" align="center">
+                    Issue list is empty
+                  </Text>
+                </Table.Cell>
+              </Table.Row>
+            )}
+
             {issues.map((issue) => (
               <Table.Row key={issue.id}>
                 <Table.RowHeaderCell>
-                 <CustomLink href={`/issues/${issue.id}`}>{issue.title}</CustomLink>
+                  <CustomLink href={`/issues/${issue.id}`}>
+                    {issue.title}
+                  </CustomLink>
                 </Table.RowHeaderCell>
 
                 <Table.Cell>
@@ -64,4 +71,4 @@ const IssuesPage = async () => {
 
 export default IssuesPage;
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
