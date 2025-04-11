@@ -44,23 +44,22 @@ const NavLinks = () => {
 
   return (
     <ul className="flex gap-6 text-gray-600 items-center">
-    {NavLinks.map((link) => {
-      const isActive = currentPath === link.href;
-      return (
-        <li key={link.href} className="relative">
-          <Link
-            href={link.href}
-            className={`nav-link ${
-              isActive ? "active text-black" : ""
-            } transition-all duration-300`}
-          >
-            {link.label}
-          </Link>
-        </li>
-      );
-    })}
-  </ul>
-  
+      {NavLinks.map((link) => {
+        const isActive = currentPath === link.href;
+        return (
+          <li key={link.href} className="relative">
+            <Link
+              href={link.href}
+              className={`nav-link ${
+                isActive ? "active text-black" : ""
+              } transition-all duration-300`}
+              >
+              {link.label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 

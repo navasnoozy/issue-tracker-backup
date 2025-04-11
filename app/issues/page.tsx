@@ -93,7 +93,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                           column.value && direction === "asc" ? "desc" : "asc",
                       },
                     }}
-                  >
+                    >
                     {column.label}
                     {column.value !== sort && <FaSort className="inline" />}
                     {column.value === sort &&
