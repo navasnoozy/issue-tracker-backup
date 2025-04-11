@@ -6,24 +6,34 @@ import StatusBadge from "../components/issueStatusBadge";
 import { notFound } from "next/navigation";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
 import { Issue, Status } from "@prisma/client";
-import { FaSort } from "react-icons/fa";
+import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 
 interface Props {
-  searchParams: Promise<{ status: Status; orderBy: keyof Issue }>;
+  searchParams: Promise<{
+    status: Status;
+    sort: keyof Issue;
+    direction: "asc" | "desc";
+  }>;
 }
 
 //Issue Table List Page
 const IssuesPage = async ({ searchParams }: Props) => {
-  let { status, orderBy } = await searchParams;
+  let { status, sort, direction = "asc" } = await searchParams;
 
+  //Filter by Status
   let statusFilter = Object.values(Status).includes(status)
     ? status
     : undefined;
 
+  //Sorting
+  const validDirections = ["asc", "desc"];
+  const order = validDirections.includes(direction) ? direction : undefined;
+  let orderBy = sort ? { [sort]: order } : undefined;
   let issues = await prisma.issue.findMany({
     where: {
       status: statusFilter,
     },
+    orderBy,
   });
 
   const tableColTitles: {
@@ -65,12 +75,20 @@ const IssuesPage = async ({ searchParams }: Props) => {
                       pathname: "issues",
                       query: {
                         status: status,
-                        orderBy: column.value,
+                        sort: column.value,
+                        direction:
+                          column.value && direction === "asc" ? "desc" : "asc",
                       },
                     }}
                   >
                     {column.label}
-                    {column.value === orderBy && <FaSort className="inline" />}
+                    {column.value !== sort && <FaSort className="inline" />}
+                    {column.value === sort &&
+                      (order === "asc" ? (
+                        <FaSortUp className="inline" />
+                      ) : (
+                        <FaSortDown className="inline" />
+                      ))}
                   </NextLink>
                 </Table.ColumnHeaderCell>
               ))}
