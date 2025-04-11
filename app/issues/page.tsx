@@ -7,34 +7,47 @@ import { notFound } from "next/navigation";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
 import { Issue, Status } from "@prisma/client";
 import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
+import Pagination from "../components/Pagination";
 
 interface Props {
   searchParams: Promise<{
     status: Status;
     sort: keyof Issue;
     direction: "asc" | "desc";
+    page:string;
   }>;
 }
 
 //Issue Table List Page
 const IssuesPage = async ({ searchParams }: Props) => {
-  let { status, sort, direction = "asc" } = await searchParams;
+  const { status, sort, direction = "asc",page } = await searchParams;
+  const itemsPerPage = 10;
+  const pageNumber = parseInt(page) || 1;
 
   //Filter by Status
-  let statusFilter = Object.values(Status).includes(status)
+  const statusFilter = Object.values(Status).includes(status)
     ? status
     : undefined;
 
   //Sorting
   const validDirections = ["asc", "desc"];
   const order = validDirections.includes(direction) ? direction : undefined;
-  let orderBy = sort ? { [sort]: order } : undefined;
-  let issues = await prisma.issue.findMany({
+  const orderBy = sort ? { [sort]: order } : undefined;
+
+  const issues = await prisma.issue.findMany({
     where: {
       status: statusFilter,
     },
     orderBy,
+    skip:itemsPerPage * pageNumber,
+    take:10
   });
+
+  const issueCount = await prisma.issue.count({
+    where: {
+      status: statusFilter
+    }
+  })
 
   const tableColTitles: {
     label: string;
@@ -129,6 +142,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
           </Table.Body>
         </Table.Root>
       </div>
+      <Pagination currentPage={pageNumber} itemsPerPage={itemsPerPage} itemCount={issueCount} />
     </div>
   );
 };

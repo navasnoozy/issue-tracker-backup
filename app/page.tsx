@@ -7,7 +7,7 @@ async function Home() {
   return (
     <div>
       <Button>Dashbaord</Button>
-      <Pagination itemCount={10} pageSize={1} currentPage={1} />
+      <Pagination itemCount={10} itemsPerPage={1} currentPage={1} />
     </div>
   );
 }

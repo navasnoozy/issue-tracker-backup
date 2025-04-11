@@ -11,13 +11,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   itemCount: number;
-  pageSize: number;
+  itemsPerPage: number;
   currentPage: number;
 }
 
-const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
+const Pagination = ({
+  itemCount,
+  itemsPerPage: pageSize,
+  currentPage,
+}: Props) => {
   const pageCount = Math.ceil(itemCount / pageSize);
-  if (pageCount <= 1) return 
+  if (pageCount <= 1) return;
   const route = useRouter();
   const searchParams = useSearchParams();
 
