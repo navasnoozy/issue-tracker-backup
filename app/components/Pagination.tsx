@@ -27,6 +27,7 @@ const Pagination = ({
 
   const handleChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
+
     params.set("page", page.toString());
     const query = "?" + params;
     route.push(query);
@@ -35,8 +36,9 @@ const Pagination = ({
   return (
     <Flex
       align={"center"}
+      justify={"center"}
       gap="2"
-      className="items-center justify-between  p-2 rounded-lg"
+      className=" p-2 rounded-lg"
     >
       {/* First page */}
       <Button
@@ -47,16 +49,19 @@ const Pagination = ({
       >
         <ChevronsLeft size={24} />
       </Button>
+
       {/* Previous page */}
       <Button
         disabled={currentPage === 1}
         color="gray"
         variant="soft"
-        onClick={() => handleChange(1)}
+        onClick={() => handleChange(currentPage-1)}
       >
         <ChevronLeft size={24} />
       </Button>
-      {searchParams.get("page")} of {pageCount}
+
+      {searchParams.get("page") || 1} of {pageCount}
+
       {/* Next page  */}
       <Button
         disabled={currentPage === pageCount}
@@ -66,6 +71,7 @@ const Pagination = ({
       >
         <ChevronRight size={24} />
       </Button>
+
       {/* Last page  */}
       <Button
         disabled={currentPage === pageCount}

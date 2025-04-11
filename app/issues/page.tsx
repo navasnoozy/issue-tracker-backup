@@ -39,7 +39,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
       status: statusFilter,
     },
     orderBy,
-    skip:itemsPerPage * pageNumber,
+    skip:itemsPerPage *( pageNumber-1),
     take:10
   });
 
@@ -111,7 +111,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
           <Table.Body>
             {issues.length === 0 && (
               <Table.Row>
-                <Table.Cell justify={"center"} colSpan={3}>
+                <Table.Cell justify={"center"} colSpan={4}>
                   {" "}
                   <Text color="gray" weight="medium" align="center">
                     {statusFilter
