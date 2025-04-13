@@ -75,6 +75,7 @@ const IssueTable = async ({ searchParams, filterByStatusValue }: Props) => {
                       column.value && direction === "asc" ? "desc" : "asc",
                   },
                 }}
+                className="inline"
               >
                 {column.label}
                 {column.value !== sort && <FaSort className="inline" />}
