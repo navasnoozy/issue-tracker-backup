@@ -22,7 +22,7 @@ async function Home() {
   };
 
   return (
-    <Grid columns={{initial:'1', md:'2' }} gap='3' >
+    <Grid columns={{initial:'1', md:'2' }} gap='3' width={'100%'}  >
       <Flex direction='column' gap='3' height='100%' >
       <IssueSummary statusCount={statusCount} />
       <IssueChart statusCount={statusCount} />
