@@ -17,8 +17,10 @@ const LatestIssues = async ()=>{
         <Heading mb='2' size='4'>Latest Issues</Heading>
         <Table.Root>
           <Table.Header>
+            <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Assignee</Table.ColumnHeaderCell>
+            </Table.Row>
           </Table.Header>
 
           <Table.Body>

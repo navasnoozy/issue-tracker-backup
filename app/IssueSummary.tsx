@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client";
 import { Status } from "@prisma/client";
 import { Card, Flex, Text, Avatar } from "@radix-ui/themes";
+import Link from "next/link";
 
 const IssueSummary = async () => {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -23,7 +24,8 @@ const IssueSummary = async () => {
   return (
     <Flex gap="2">
       {summaryCards.map((card) => (
-        <Card key={card.status} className={card.className}>
+        <Link key={card.status} href={`/issues?status=${card.status}`}>
+        <Card   className={card.className}>
           <Flex gap='2' align={"center"} >
             <Text as="div" size="2" weight="bold">
              {card.label}
@@ -31,6 +33,7 @@ const IssueSummary = async () => {
             <Text className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center">{card.count}</Text>
           </Flex>
         </Card>
+        </Link>
       ))}
     </Flex>
   );
