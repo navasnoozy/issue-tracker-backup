@@ -4,12 +4,14 @@ import { Card, Flex, Text, Avatar } from "@radix-ui/themes";
 import Link from "next/link";
 
 interface Props {
+   statusCount:{
     open: number;
     inProgress: number;
     closed: number;
+   }
 }
 
-const IssueSummary = async ({open,inProgress,closed}:Props) => {
+const IssueSummary = async ({statusCount:{open,inProgress,closed}}:Props) => {
 
   const summaryCards: {
     label: string;
