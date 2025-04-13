@@ -56,7 +56,7 @@ const IssueSummary = async ({
               <Text as="div" size="2" weight="bold" wrap='nowrap' >
                {card.label}
               </Text>
-              <Text className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center">
+              <Text className="w-8 h-8 border bg-white border-gray-200 rounded-full flex items-center justify-center">
                 {card.count}
               </Text>
             </Flex>

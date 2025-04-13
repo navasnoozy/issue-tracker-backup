@@ -32,14 +32,14 @@ const LatestIssues = async ()=>{
                   <StatusBadge status={issue.status} />
                   </Flex>
                 </Table.RowHeaderCell>
-                <Table.Cell>
-                  {issue.assignToUser && <Avatar
+                <Table.Cell className="text-gray-400">
+                  {issue.assignToUser ? <Avatar
                     size="2"
                     referrerPolicy="no-referrer"
                     src={issue.assignToUser?.image!}
                     radius="full"
                     fallback="No image"
-                  />}
+                  /> :'Unassigned'}
                 </Table.Cell>
               </Table.Row>
             ))}
