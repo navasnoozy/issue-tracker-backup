@@ -1,10 +1,11 @@
 // app/page.tsx
 
-import { Flex } from "@radix-ui/themes";
+import { Flex, Grid } from "@radix-ui/themes";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import { prisma } from "@/prisma/client";
 import IssueChart from "./IssueChart";
+
 
 async function Home() {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -20,12 +21,16 @@ async function Home() {
   };
 
   return (
-    <Flex width="100%" direction="column" gap="3" align={"center"}>
+    <Grid columns={{initial:'1', md:'2' }} gap='3' >
+      <Flex direction='column' gap='3' height='100%' >
       <IssueSummary statusCount={statusCount} />
-      <LatestIssues />
       <IssueChart statusCount={statusCount} />
-    </Flex>
+      </Flex>
+      <LatestIssues />
+    </Grid>
+    
   );
 }
 
 export default Home;
+
