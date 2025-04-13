@@ -2,10 +2,11 @@
 import { prisma } from "@/prisma/client";
 import { notFound } from "next/navigation";
 import DynamicIssueForm from "../../_components/DynamicIssueForm";
-import { PropsType } from "../page";
+import { Props } from "../page";
+import { Metadata } from "next";
 
 // EDIT ISSUE
-const IssueEditPage = async ({ params }: PropsType) => {
+const IssueEditPage = async ({ params }: Props) => {
   const { id } = await params;
 
   if (!id) return "Invalid Id";
@@ -22,5 +23,9 @@ const IssueEditPage = async ({ params }: PropsType) => {
 
   return <DynamicIssueForm issue={issue} />;
 };
+
+export const metadata : Metadata = {
+  title : 'Issue Tracker - Edit Issue'
+}
 
 export default IssueEditPage;

@@ -6,15 +6,16 @@ import EditButton from "./editButton";
 import DeleteButton from "./DeleteButton";
 import { getServerSession } from "next-auth";
 import AssigneeSelect from "../_components/SelectAssignee";
+import { title } from "process";
 
-export interface PropsType {
+export interface Props {
   params: Promise<{ id: string }>;
 }
 
-const Page = async ({ params }: PropsType) => {
+const Page = async ({ params }: Props) => {
   const { id } = await params;
   const session = await getServerSession();
-  const authenticated = !!session
+  const authenticated = !!session;
 
   const issue = await prisma.issue.findUnique({
     where: {
@@ -41,5 +42,19 @@ const Page = async ({ params }: PropsType) => {
     </Grid>
   );
 };
+
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const issue = await prisma.issue.findUnique ({
+    where : {
+      id: id
+    }
+  })
+
+  return {
+    title: issue?.title,
+    description:'Details of '+ issue?.title
+  }
+}
 
 export default Page;

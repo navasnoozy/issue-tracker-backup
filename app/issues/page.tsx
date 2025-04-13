@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import Pagination from "../components/Pagination";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
 import IssueTable from "./IssueTable";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: Promise<{
@@ -54,6 +55,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
     </div>
   );
 };
+
+export const metadata : Metadata = {
+  title: 'Issue Tracker - List of Issues',
+  description: 'Table List of created Issues'
+}
 
 export default IssuesPage;
 
