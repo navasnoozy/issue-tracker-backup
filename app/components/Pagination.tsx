@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Flex } from "@radix-ui/themes";
+import { Button, Flex, Text } from "@radix-ui/themes";
 import {
   ChevronLeft,
   ChevronRight,
@@ -17,10 +17,11 @@ interface Props {
 
 const Pagination = ({
   itemCount,
-  itemsPerPage: pageSize,
+  itemsPerPage,
   currentPage,
 }: Props) => {
-  const pageCount = Math.ceil(itemCount / pageSize);
+
+  const pageCount = Math.ceil(itemCount / itemsPerPage);
   if (pageCount <= 1) return;
   const route = useRouter();
   const searchParams = useSearchParams();
@@ -60,7 +61,7 @@ const Pagination = ({
         <ChevronLeft size={24} />
       </Button>
 
-      {searchParams.get("page") || 1} of {pageCount}
+      <Text color="gray">{searchParams.get("page") || 1} of {pageCount}</Text>
 
       {/* Next page  */}
       <Button
