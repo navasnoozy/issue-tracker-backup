@@ -7,6 +7,7 @@ import IssueStatusFilter from "./_components/IssueStatusFilter";
 import IssueTable from "./IssueTable";
 import { Metadata } from "next";
 
+
 interface Props {
   searchParams: Promise<{
     status: Status;
@@ -15,6 +16,8 @@ interface Props {
     page: string;
   }>;
 }
+
+
 
 //Issue Table List Page
 const IssuesPage = async ({ searchParams }: Props) => {

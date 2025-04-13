@@ -1,27 +1,27 @@
-import { Box, Card, Flex, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../prisma/client";
+import AssigneeSelect from "../_components/SelectAssignee";
+import DeleteButton from "./DeleteButton";
 import IssueDetailsPage from "./IssueDetailsPage";
 import EditButton from "./editButton";
-import DeleteButton from "./DeleteButton";
-import { getServerSession } from "next-auth";
-import AssigneeSelect from "../_components/SelectAssignee";
-import { title } from "process";
+import { cache } from "react";
 
 export interface Props {
   params: Promise<{ id: string }>;
 }
+
+// fetching and caching issue, return promise not resolved
+const fetchIssue = cache ((issueId:string)=>( prisma.issue.findUnique ({where:{id:issueId}})))
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
   const session = await getServerSession();
   const authenticated = !!session;
 
-  const issue = await prisma.issue.findUnique({
-    where: {
-      id: id,
-    },
-  });
+  //resolving promise
+  const issue = await fetchIssue(id)
 
   if (!issue) notFound();
 
@@ -45,11 +45,7 @@ const Page = async ({ params }: Props) => {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const issue = await prisma.issue.findUnique ({
-    where : {
-      id: id
-    }
-  })
+  const issue = await fetchIssue (id)
 
   return {
     title: issue?.title,
