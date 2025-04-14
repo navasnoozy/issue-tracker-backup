@@ -3,10 +3,15 @@ import useUsers from "@/app/hooks/useUsers";
 import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, error } = useUsers();
+  const {status} = useSession ()
+
+
+
   const toastOptions = {
     style: {
       border: "1px solid rgba(255, 0, 0, 1)",
@@ -14,7 +19,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     },
   };
 
-  if (error) return null;
+  if (error || status === 'unauthenticated') return null;
 
   const handleChange = async (userId: string) => {
     const assignToUserId = userId === "unassigned" ? null : userId;
@@ -31,7 +36,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         defaultValue={issue.assignToUserId ?? undefined}
         onValueChange={handleChange}
       >
-        <Select.Trigger placeholder="Assign" />
+        <Select.Trigger  placeholder="Assign" />
         <Select.Content>
           <Select.Group>
             <Select.Label>Suggetions</Select.Label>

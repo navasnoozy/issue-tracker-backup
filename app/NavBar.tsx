@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { useSession} from "next-auth/react";
+import { signOut, useSession} from "next-auth/react";
 import { Flex, Avatar, Box, DropdownMenu } from "@radix-ui/themes";
 
 const NavBar = () => {
@@ -36,6 +36,7 @@ const LogoIcon = () => {
 const NavLinks = () => {
  'use client'
   const currentPath = usePathname();
+  
 
   const NavLinks = [
     { label: "Dashboard", href: "/" },
@@ -88,8 +89,8 @@ const UserProfile = () => {
           </DropdownMenu.Trigger>
           <DropdownMenu.Content variant="soft">
             <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
-            <DropdownMenu.Item color="red">
-              <Link href={`/api/auth/signout?callbackUrl=/`}>Signout</Link>
+            <DropdownMenu.Item  className="!cursor-pointer" onSelect={()=> signOut({callbackUrl:`${currentPath}`})}  color="red">
+              Signout
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
