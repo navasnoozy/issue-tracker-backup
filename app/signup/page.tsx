@@ -18,6 +18,8 @@ import ErrorMessage from "../components/ErrorMessage";
 import { userSchema, UserSchemaType } from "../validation";
 import { useRouter } from "next/navigation";
 
+
+//SINGUP PAGE
 const Signup = () => {
   const [status, setStatus] = useState<{
     message?: string;
