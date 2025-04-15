@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    console.log("RECHED TO VALIDATE");
+
 
     const validate = baseIssueSchema.safeParse(body);
-    console.log("COMPLETE VALIDATE");
+
 
     if (!validate.success) {
       return NextResponse.json(validate.error.errors, { status: 400 });
