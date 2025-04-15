@@ -2,6 +2,7 @@ import { userSchema } from "@/app/validation";
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import delay  from 'delay'
 
 //FETCH ALL USERS
 export async function GET(req: NextRequest) {
@@ -16,13 +17,15 @@ export async function GET(req: NextRequest) {
 
 //CREATE USER
 export async function POST(req: NextRequest) {
+
+  delay(2000)
   const body = await req.json();
 
   const validate = userSchema.safeParse(body);
   if (validate.error)
     return NextResponse.json(validate.error.errors, { status: 401 });
 
-  const { name, email, password, confirmPassword } = body;
+  const { name, email, password } = body;
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -33,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Email ID already registered" },
+       "Email ID already registered" ,
         { status: 409 }
       );
     }
@@ -48,7 +51,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (newUser) return NextResponse.json({message:'User creation successfull', status:201});
+    if (newUser) return NextResponse.json('User creation successfull',{ status:201});
 
   } catch (error) {
     console.error("Unexpected error:", error);

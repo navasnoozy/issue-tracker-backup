@@ -1,24 +1,31 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Box,
   Button,
-  Card,
+  Callout,
   Flex,
   Heading,
-  TextField,
+  Spinner,
   Text,
-  Box,
-  Callout,
+  TextField
 } from "@radix-ui/themes";
-import React, { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { userSchema, UserSchemaType } from "../validation";
-import ErrorMessage from "../components/ErrorMessage";
 import axios from "axios";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
+import ErrorMessage from "../components/ErrorMessage";
+import { userSchema, UserSchemaType } from "../validation";
 
 const Signup = () => {
-  const [error, setError] = useState("");
+  const [status, setStatus] = useState<{
+    message?: string;
+    error?: boolean;
+  }>({
+    message: "",
+    error: false,
+  });
+  const [loading, setLoading] = useState(false);
 
   const methods = useForm<UserSchemaType>({
     resolver: zodResolver(userSchema),
@@ -31,10 +38,17 @@ const Signup = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      axios.post("/api/users", data).then(()=>alert('user created'));
-    } catch (error) {
-      console.log('Error while creating user', error);
-      setError("An unexpected Error occured");
+      setStatus({ message: "Creating Account", error: false });
+      setLoading(true);
+      await axios.post("/api/users", data).then((res) => {
+        setStatus({ message: res.data, error: false });
+        setLoading(false);
+      });
+    } catch (error: any) {
+      console.log("Error while creating user", error);
+      setStatus({ error: true, message: error.response.data });
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -51,12 +65,12 @@ const Signup = () => {
             Create Account
           </Heading>
 
-          {error && (
-            <Callout.Root color="red">
+          {status?.message && (
+            <Callout.Root color={status.error ? "red" : "green"}>
               <Callout.Icon>
-                <RxInfoCircled />
+                {loading ? <Spinner /> : <RxInfoCircled />}
               </Callout.Icon>
-              <Callout.Text>{error}</Callout.Text>
+              <Callout.Text>{status.message}</Callout.Text>
             </Callout.Root>
           )}
 
