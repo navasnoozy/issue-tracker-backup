@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // const res = await sendMail (email);
+    const res = await sendMail (newUser);
 
     if (newUser) return NextResponse.json({message:'User creation successfull',userId:newUser.id},{ status:201});
 
