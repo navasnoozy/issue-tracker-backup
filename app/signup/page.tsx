@@ -8,15 +8,17 @@ import {
   TextField,
   Text,
   Box,
+  Callout,
 } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { userSchema, UserSchemaType } from "../validation";
 import ErrorMessage from "../components/ErrorMessage";
 import axios from "axios";
+import { RxInfoCircled } from "react-icons/rx";
 
 const Signup = () => {
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   const methods = useForm<UserSchemaType>({
     resolver: zodResolver(userSchema),
@@ -29,8 +31,11 @@ const Signup = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      axios.get('')
-    } catch (error) {}
+      axios.post("/api/users", data).then(()=>alert('user created'));
+    } catch (error) {
+      console.log('Error while creating user', error);
+      setError("An unexpected Error occured");
+    }
   });
 
   return (
@@ -45,6 +50,15 @@ const Signup = () => {
           <Heading size="5" mb="5" className="text-center">
             Create Account
           </Heading>
+
+          {error && (
+            <Callout.Root color="red">
+              <Callout.Icon>
+                <RxInfoCircled />
+              </Callout.Icon>
+              <Callout.Text>{error}</Callout.Text>
+            </Callout.Root>
+          )}
 
           <Box>
             <Text size="3" color="gray">
@@ -95,7 +109,7 @@ const Signup = () => {
             />
             <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
           </Box>
-          <Flex justify={"center"} mt='4'>
+          <Flex justify={"center"} mt="4">
             <Button
               type="submit"
               size="4"
