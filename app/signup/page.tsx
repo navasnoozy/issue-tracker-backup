@@ -8,7 +8,7 @@ import {
   Heading,
   Spinner,
   Text,
-  TextField
+  TextField,
 } from "@radix-ui/themes";
 import axios from "axios";
 import { useState } from "react";
@@ -40,10 +40,9 @@ const Signup = () => {
     try {
       setStatus({ message: "Creating Account", error: false });
       setLoading(true);
-      await axios.post("/api/users", data).then((res) => {
-        setStatus({ message: res.data, error: false });
-        setLoading(false);
-      });
+      const res= await axios.post("/api/users", data);
+      setStatus({ message: res.data, error: false });
+      setLoading(false);
     } catch (error: any) {
       console.log("Error while creating user", error);
       setStatus({ error: true, message: error.response.data });
