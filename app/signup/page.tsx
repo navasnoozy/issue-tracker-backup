@@ -16,6 +16,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
 import ErrorMessage from "../components/ErrorMessage";
 import { userSchema, UserSchemaType } from "../validation";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [status, setStatus] = useState<{
@@ -26,6 +27,8 @@ const Signup = () => {
     error: false,
   });
   const [loading, setLoading] = useState(false);
+
+  const route = useRouter()
 
   const methods = useForm<UserSchemaType>({
     resolver: zodResolver(userSchema),
@@ -41,11 +44,14 @@ const Signup = () => {
       setStatus({ message: "Creating Account", error: false });
       setLoading(true);
       const res= await axios.post("/api/users", data);
-      setStatus({ message: res.data, error: false });
+      setStatus({ message: res.data.message, error: false });
       setLoading(false);
+      methods.reset()
+      route.push(`/signup/verify-Email?userId=${res.data.userId}`)
+      
     } catch (error: any) {
       console.log("Error while creating user", error);
-      setStatus({ error: true, message: error.response.data });
+      setStatus({ error: true, message: error.response.data.message || "Something went wrong" });
     } finally {
       setLoading(false);
     }
@@ -81,6 +87,7 @@ const Signup = () => {
               {...register("name")}
               placeholder="Enter your name"
               className="!rounded-md !h-[40px]"
+              value='navas'
             />
             <ErrorMessage>{errors.name?.message}</ErrorMessage>
           </Box>
@@ -106,6 +113,7 @@ const Signup = () => {
               type="password"
               placeholder="Enter your password"
               className="!rounded-md  !h-[40px]"
+              value='12345678as'
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
           </Box>
@@ -119,6 +127,7 @@ const Signup = () => {
               type="password"
               placeholder="Confirm the password"
               className="!rounded-md  !h-[40px]"
+              value='12345678as'
             />
             <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
           </Box>

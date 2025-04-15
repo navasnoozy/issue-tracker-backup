@@ -3,6 +3,7 @@ import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import delay  from 'delay'
+import sendMail from "./sendMail";
 
 //FETCH ALL USERS
 export async function GET(req: NextRequest) {
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-       "Email ID already registered" ,
+      {message:'Email ID already registered'},
         { status: 409 }
       );
     }
@@ -51,7 +52,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (newUser) return NextResponse.json('User creation successfull',{ status:201});
+    const res = await sendMail (email);
+
+    if (newUser) return NextResponse.json({message:'User creation successfull',userId:newUser.id},{ status:201});
 
   } catch (error) {
     console.error("Unexpected error:", error);
