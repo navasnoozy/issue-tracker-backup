@@ -13,6 +13,8 @@ const VerifyEmail = () => {
         inbox and complete the verification.
         
       </Heading>
+
+      
     </Card>
   );
 };

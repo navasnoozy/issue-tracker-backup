@@ -3,6 +3,8 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { prisma } from "@/prisma/client";
 import { User } from "@prisma/client";
+import hmtlContent from '@/app/components/verifyEmailTemplate'
+
 
 const sendMail = async (user: User) => {
   const token = await crypto.randomBytes(32).toString("hex");
@@ -34,10 +36,15 @@ const sendMail = async (user: User) => {
     from: "nn@gmail.com",
     to: user.email,
     subject: "Issue Tracker - verify your email id ✔",
-    html: "<b>Hello world?</b>", // html body
+    html: 
   });
 
   return res;
 };
 
 export default sendMail;
+
+
+
+
+  
