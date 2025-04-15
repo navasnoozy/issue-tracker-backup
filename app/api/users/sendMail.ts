@@ -1,6 +1,20 @@
 import nodemailer from "nodemailer";
+import crypto from 'crypto';
+import bcrypt  from 'bcrypt'
+import { prisma } from "@/prisma/client";
 
 const sendMail = async ( email:string) => {
+
+    const token = await crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token,10);
+
+    await prisma.verificationToken.create({
+        data:{
+            
+        }
+    })
+
+
 
     const transporter = nodemailer.createTransport({
         service: "Gmail",
