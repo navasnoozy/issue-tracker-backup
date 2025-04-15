@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { signOut, useSession} from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Flex, Avatar, Box, DropdownMenu } from "@radix-ui/themes";
+import { FaSignInAlt } from "react-icons/fa";
 
 const NavBar = () => {
   return (
     <Flex
       justify={"between"}
-      className="flex justify-between w-full  border-b   border-gray-200  shadow-2xs px-6 h-14">
+      className="flex justify-between w-full  border-b   border-gray-200  shadow-2xs px-6 h-14"
+    >
       <Flex className="gap-6 items-center">
         <LogoIcon />
         <NavLinks />
@@ -34,9 +36,8 @@ const LogoIcon = () => {
 
 //NavLinks
 const NavLinks = () => {
- 'use client'
+  "use client";
   const currentPath = usePathname();
-  
 
   const NavLinks = [
     { label: "Dashboard", href: "/" },
@@ -54,7 +55,7 @@ const NavLinks = () => {
               className={`nav-link ${
                 isActive ? "active text-black" : ""
               } transition-all duration-300`}
-              >
+            >
               {link.label}
             </Link>
           </li>
@@ -66,12 +67,36 @@ const NavLinks = () => {
 
 //User profile/////
 const UserProfile = () => {
-  'use client'
+  "use client";
   const { data: session, status } = useSession();
   const currentPath = usePathname();
 
   if (status === "unauthenticated")
-    return <Link className=" text-gray-600" href={`/api/auth/signin?callbackUrl=${currentPath}`}>Signin</Link>;
+    return (
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger className="cursor-pointer">
+          <FaSignInAlt />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item>
+            <Link
+              className=" text-gray-600"
+              href={`/api/auth/signin?callbackUrl=${currentPath}`}
+            >
+              Sing up
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item>
+            <Link
+              className=" text-gray-600"
+              href={`/api/auth/signin?callbackUrl=${currentPath}`}
+            >
+              Sign in
+            </Link>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    );
 
   return (
     <>
@@ -89,7 +114,11 @@ const UserProfile = () => {
           </DropdownMenu.Trigger>
           <DropdownMenu.Content variant="soft">
             <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
-            <DropdownMenu.Item  className="!cursor-pointer" onSelect={()=> signOut({callbackUrl:`${currentPath}`})}  color="red">
+            <DropdownMenu.Item
+              className="!cursor-pointer"
+              onSelect={() => signOut({ callbackUrl: `${currentPath}` })}
+              color="red"
+            >
               Signout
             </DropdownMenu.Item>
           </DropdownMenu.Content>
