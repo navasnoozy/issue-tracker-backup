@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { AuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -16,33 +15,38 @@ const authOptions: AuthOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-    CredentialsProvider({
-      name: "",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-       
-        const res = await fetch("/your/endpoint", {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" },
-        });
-        const user = await res.json();
-
-        // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user;
-        }
-        // Return null if user data could not be retrieved
-        return null;
-      },
-    }),
   ],
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      return true; // Always allow sign in to proceed
+    },
+    
+    // Use the session callback instead, which runs after the user is created
+    async session({ session, user, token }) {
+      if (session?.user?.email) {
+        // Check if this is a Google or GitHub user and update emailVerified
+        const user = await prisma.user.findUnique({
+          where: { email: session.user.email },
+          select: { emailVerified: true, id: true, accounts: { select: { provider: true } } }
+        });
+        
+        if (user && !user.emailVerified && 
+            user.accounts?.some(acc => ['google', 'github'].includes(acc.provider))) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { emailVerified: new Date() }
+          });
+        }
+      }
+      return session;
+    }
+  }
 };
 
 export default authOptions;
+
+
+
