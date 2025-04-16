@@ -2,17 +2,21 @@
 import useUser from "@/app/hooks/userUser";
 import { Button, Card, Heading, Spinner } from "@radix-ui/themes";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SendMail = ({ userId }: { userId: string | null }) => {
   const { data: user } = useUser(userId);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(initialMessage);
 
-  if (!user) {
-    setMessage("User data not available.");
-    return;
-  }
+   useEffect (()=> {
+    if (!user) {
+        setMessage("User data not available.");
+        return;
+      }else{
+        setMessage(initialMessage)
+      }
+   })
 
   const handleClick = async () => {
     try {
