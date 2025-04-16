@@ -1,8 +1,8 @@
 //app/signup/verify-Email/page.tsx
 "use client";
 import { useSearchParams } from "next/navigation";
-import SendMail from "./SendMail";
-import VerifyEmail from "./VerifyEmail";
+import SendMail from "../components/SendMail";
+import VerifyEmail from "../components/VerifyEmail";
 
 const page = () => {
   const searchParams = useSearchParams();

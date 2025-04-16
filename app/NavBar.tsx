@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
-import { Flex, Avatar, Box, DropdownMenu } from "@radix-ui/themes";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Flex, Avatar, Box, DropdownMenu, Button } from "@radix-ui/themes";
 import { FaSignInAlt } from "react-icons/fa";
 
 const NavBar = () => {
@@ -70,32 +70,17 @@ const UserProfile = () => {
   "use client";
   const { data: session, status } = useSession();
   const currentPath = usePathname();
+  console.log(currentPath);
 
   if (status === "unauthenticated")
     return (
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="cursor-pointer">
-          <FaSignInAlt />
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Item>
-            <Link
-              className=" text-gray-600"
-              href={`/api/auth/signin?callbackUrl=${currentPath}`}
-            >
-              Sing up
-            </Link>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item>
-            <Link
-              className=" text-gray-600"
-              href={`/api/auth/signin?callbackUrl=${currentPath}`}
-            >
-              Sign in
-            </Link>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+      <Box>
+        {currentPath !== "/auth" && (
+          <Link className=" text-gray-600" href={`/auth`}>
+            Create account
+          </Link>
+        )}
+      </Box>
     );
 
   return (

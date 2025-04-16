@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const url = new URL("http://localhost:3000/signup/verify-Email");
+  const url = new URL("http://localhost:3000/auth/verify-Email");
   url.searchParams.append('token',token);
   url.searchParams.append('userId',user.id)
   const hmtlContent: string = generateTemplate(user.name,url);

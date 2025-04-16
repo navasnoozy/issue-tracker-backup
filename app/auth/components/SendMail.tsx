@@ -9,19 +9,10 @@ const SendMail = ({ userId }: { userId: string | null }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(initialMessage);
 
-   useEffect (()=> {
-    if (!user) {
-        setMessage("User data not available.");
-        return;
-      }else{
-        setMessage(initialMessage)
-      }
-   },[user])
-
   const handleClick = async () => {
     try {
       setLoading(true);
-     await axios.post("/api/users/emailVerification", user);
+      await axios.post("/api/users/emailVerification", user);
       setLoading(false);
       setMessage(successMessage);
     } catch (error) {

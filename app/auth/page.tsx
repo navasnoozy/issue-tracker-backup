@@ -14,10 +14,9 @@ import axios from "axios";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RxInfoCircled } from "react-icons/rx";
-import ErrorMessage from "../components/ErrorMessage";
-import { userSchema, UserSchemaType } from "../validation";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import { userSchema, UserSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
-
 
 //SINGUP PAGE
 const Signup = () => {
@@ -30,7 +29,7 @@ const Signup = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  const route = useRouter()
+  const route = useRouter();
 
   const methods = useForm<UserSchemaType>({
     resolver: zodResolver(userSchema),
@@ -45,15 +44,17 @@ const Signup = () => {
     try {
       setStatus({ message: "Creating Account", error: false });
       setLoading(true);
-      const res= await axios.post("/api/users", data);
+      const res = await axios.post("/api/users", data);
       setStatus({ message: res.data.message, error: false });
       setLoading(false);
-      methods.reset()
-      route.push(`/signup/verify-Email?userId=${res.data.userId}`)
-      
+      methods.reset();
+      route.push(`/auth/verify-Email?userId=${res.data.userId}`);
     } catch (error: any) {
       console.log("Error while creating user", error);
-      setStatus({ error: true, message: error.response.data.message || "Something went wrong" });
+      setStatus({
+        error: true,
+        message: error.response.data.message || "Something went wrong",
+      });
     } finally {
       setLoading(false);
     }
@@ -88,8 +89,7 @@ const Signup = () => {
             <TextField.Root
               {...register("name")}
               placeholder="Enter your name"
-              className="!rounded-md !h-[40px]"
-
+              className="!rounded-md "
             />
             <ErrorMessage>{errors.name?.message}</ErrorMessage>
           </Box>
@@ -101,7 +101,7 @@ const Signup = () => {
             <TextField.Root
               {...register("email")}
               placeholder="Enter your email"
-              className="!rounded-md  !h-[40px]"
+              className="!rounded-md  "
             />
             <ErrorMessage>{errors.email?.message}</ErrorMessage>
           </Box>
@@ -114,8 +114,7 @@ const Signup = () => {
               {...register("password")}
               type="password"
               placeholder="Enter your password"
-              className="!rounded-md  !h-[40px]"
-
+              className="!rounded-md  "
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
           </Box>
@@ -128,15 +127,14 @@ const Signup = () => {
               {...register("confirmPassword")}
               type="password"
               placeholder="Confirm the password"
-              className="!rounded-md  !h-[40px]"
-
+              className="!rounded-md  "
             />
             <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
           </Box>
           <Flex justify={"center"} mt="4">
             <Button
               type="submit"
-              size="4"
+              size="3"
               className="text-center !w-[200px] !rounded-lg"
             >
               Create Account
