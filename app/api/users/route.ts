@@ -1,4 +1,4 @@
-import { userSchema } from "@/app/validation";
+import { signinSchema } from "@/app/validation";
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const validate = userSchema.safeParse(body);
+  const validate = signinSchema.safeParse(body);
   if (validate.error)
     return NextResponse.json(validate.error.errors, { status: 401 });
 
