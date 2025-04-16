@@ -16,13 +16,12 @@ const SendMail = ({ userId }: { userId: string | null }) => {
       }else{
         setMessage(initialMessage)
       }
-   })
+   },[user])
 
   const handleClick = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("/api/users/emailVerification", user);
-      console.log("axioslog//////", res);
+     await axios.post("/api/users/emailVerification", user);
       setLoading(false);
       setMessage(successMessage);
     } catch (error) {

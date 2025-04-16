@@ -11,7 +11,7 @@ const page = () => {
 
   return (
     <>
-    <VerifyEamil token={token} />
+    <VerifyEamil token={token} userId={userId} />
     <SendMail userId={userId} />
     </>
   )

@@ -20,10 +20,10 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const hmtlContent: string = generateTemplate(
-    user.name,
-    `http://localhost:3000/signup/verify-Email?token=${token}`
-  );
+  const url = new URL("http://localhost:3000/signup/verify-Email");
+  url.searchParams.append('token',token);
+  url.searchParams.append('userId',user.id)
+  const hmtlContent: string = generateTemplate(user.name,url);
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
