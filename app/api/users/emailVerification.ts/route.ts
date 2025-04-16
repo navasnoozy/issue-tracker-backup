@@ -1,18 +1,20 @@
-import nodemailer from "nodemailer";
-import crypto from "crypto";
-import bcrypt from "bcrypt";
-import { prisma } from "@/prisma/client";
-import { User } from "@prisma/client";
 import generateTemplate from "@/app/components/verifyEmailTemplate";
+import { prisma } from "@/prisma/client";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
-const sendMail = async (user: User) => {
+export async function POST (req:NextRequest) {
+    const user = await req.json();
+
   const token = await crypto.randomBytes(32).toString("hex");
   const hashedToken = await bcrypt.hash(token, 10);
   const expires = new Date(Date.now() + 60 * 60 * 1000);
 
   await prisma.verificationToken.create({
     data: {
-      identifier: user.email,
+      identifier: user.id,
       token: hashedToken,
       expires,
     },
@@ -34,7 +36,6 @@ const sendMail = async (user: User) => {
     },
   });
 
-  console.log(transporter);
 
   const res = await transporter.sendMail({
     from: "nn@gmail.com",
@@ -43,7 +44,6 @@ const sendMail = async (user: User) => {
     html: hmtlContent,
   });
 
-  return res;
+  return NextResponse.json(res)
 };
 
-export default sendMail;
