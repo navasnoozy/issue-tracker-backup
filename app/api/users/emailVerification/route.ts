@@ -5,8 +5,8 @@ import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export async function POST (req:NextRequest) {
-    const user = await req.json();
+export async function POST(req: NextRequest) {
+  const user = await req.json();
 
   const token = await crypto.randomBytes(32).toString("hex");
   const hashedToken = await bcrypt.hash(token, 10);
@@ -22,7 +22,7 @@ export async function POST (req:NextRequest) {
 
   const hmtlContent: string = generateTemplate(
     user.name,
-    `http://localhost:3000/signup/verify-Email?token=${hashedToken}`
+    `http://localhost:3000/signup/verify-Email?token=${token}`
   );
 
   const transporter = nodemailer.createTransport({
@@ -36,7 +36,6 @@ export async function POST (req:NextRequest) {
     },
   });
 
-
   const res = await transporter.sendMail({
     from: "issuetracker@gmail.com",
     to: user.email,
@@ -44,6 +43,53 @@ export async function POST (req:NextRequest) {
     html: hmtlContent,
   });
 
-  return NextResponse.json(res)
-};
+  return NextResponse.json(res);
+}
 
+export async function PATCH(req: NextRequest) {
+  const { userId, token } = await req.json();
+
+  const record = await prisma.verificationToken.findFirst({
+    where: {
+      identifier: userId,
+    },
+  });
+
+  if (!record)
+    return NextResponse.json({ message: "No token found" }, { status: 404 });
+
+  const isValidToken = await bcrypt.compare(token, record.token);
+
+  if (!isValidToken)
+    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+
+  if (new Date() > record.expires) {
+    return NextResponse.json({ message: "Token expired" }, { status: 410 });
+  }
+
+  await prisma.verificationToken.delete({
+    where: {
+      identifier_token: {
+        identifier: userId,
+        token: record.token,
+      },
+    },
+  });
+
+  const verifiedUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data:{
+      emailVerified: new Date()
+    }
+  });
+
+  if (!verifiedUser)
+    return NextResponse.json(
+      { message: "Verification failed, User not found" },
+      { status: 404 }
+    );
+
+    return NextResponse.json({message:'Verification Completed'},{status:200})
+}
