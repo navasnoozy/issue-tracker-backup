@@ -3,21 +3,25 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { prisma } from "@/prisma/client";
 import { User } from "@prisma/client";
-import hmtlContent from '@/app/components/verifyEmailTemplate'
-
+import generateTemplate from "@/app/components/verifyEmailTemplate";
 
 const sendMail = async (user: User) => {
   const token = await crypto.randomBytes(32).toString("hex");
   const hashedToken = await bcrypt.hash(token, 10);
-  const expires = new Date(Date.now()+ 60 * 60 * 1000)
+  const expires = new Date(Date.now() + 60 * 60 * 1000);
 
   await prisma.verificationToken.create({
     data: {
       identifier: user.email,
       token: hashedToken,
-      expires
+      expires,
     },
   });
+
+  const hmtlContent: string = generateTemplate(
+    user.name,
+    `http://localhost:3000/signup/verify-Email?token=${hashedToken}`
+  );
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -34,17 +38,12 @@ const sendMail = async (user: User) => {
 
   const res = await transporter.sendMail({
     from: "nn@gmail.com",
-    to: user.email,
+    to: "aswathin44@gmail.com",
     subject: "Issue Tracker - verify your email id ✔",
-    html: 
+    html: hmtlContent,
   });
 
   return res;
 };
 
 export default sendMail;
-
-
-
-
-  
