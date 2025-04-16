@@ -38,8 +38,8 @@ export async function POST (req:NextRequest) {
 
 
   const res = await transporter.sendMail({
-    from: "nn@gmail.com",
-    to: "aswathin44@gmail.com",
+    from: "issuetracker@gmail.com",
+    to: user.email,
     subject: "Issue Tracker - verify your email id ✔",
     html: hmtlContent,
   });
