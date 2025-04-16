@@ -9,6 +9,12 @@ const VerifyEmail = ({ userId }: { userId: string | null }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(initialMessage);
 
+  if (!user) {
+    setMessage("User data not available.");
+    return;
+  }
+
+
   const handleClick = async () => {
     try {
         setLoading(true)
@@ -17,7 +23,10 @@ const VerifyEmail = ({ userId }: { userId: string | null }) => {
         setLoading(false)
         setMessage(successMessage)
     } catch (error) {
-        
+        console.error("Error sending email:", error);
+      setMessage("Failed to send email");
+    }finally{
+       setLoading (false)
     }
   };
 
@@ -25,7 +34,7 @@ const VerifyEmail = ({ userId }: { userId: string | null }) => {
     <Card className="max-w-md bg-green-200  !space-y-3">
       <Heading color="gray">Welcome {user?.name?.toUpperCase()}</Heading>
       <Heading size="3">{message}</Heading>
-      <Button onClick={handleClick} className="w-sm">
+      <Button disabled={loading} onClick={handleClick} className="w-sm">
         {loading ? (<><span>Sending...</span><Spinner /></>):("Verify Email")}
       </Button>
     </Card>
