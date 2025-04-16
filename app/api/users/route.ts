@@ -2,8 +2,6 @@ import { userSchema } from "@/app/validation";
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import delay from "delay";
-import sendMail from "./sendMail";
 
 //FETCH ALL USERS
 export async function GET(req: NextRequest) {
