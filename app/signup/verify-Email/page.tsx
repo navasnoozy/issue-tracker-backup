@@ -2,7 +2,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import SendMail from "./SendMail";
-import VerifyEamil from "./VerifyEmail";
+import VerifyEmail from "./VerifyEmail";
 
 const page = () => {
   const searchParams = useSearchParams();
@@ -11,10 +11,10 @@ const page = () => {
 
   return (
     <>
-    <VerifyEamil token={token} userId={userId} />
-    <SendMail userId={userId} />
+      {token && <VerifyEmail token={token} userId={userId} />}
+      {!token && <SendMail userId={userId} />}
     </>
-  )
+  );
 };
 
 export default page;

@@ -89,7 +89,7 @@ const Signup = () => {
               {...register("name")}
               placeholder="Enter your name"
               className="!rounded-md !h-[40px]"
-              value='navas'
+
             />
             <ErrorMessage>{errors.name?.message}</ErrorMessage>
           </Box>
@@ -115,7 +115,7 @@ const Signup = () => {
               type="password"
               placeholder="Enter your password"
               className="!rounded-md  !h-[40px]"
-              value='12345678as'
+
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
           </Box>
@@ -129,7 +129,7 @@ const Signup = () => {
               type="password"
               placeholder="Confirm the password"
               className="!rounded-md  !h-[40px]"
-              value='12345678as'
+
             />
             <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
           </Box>
