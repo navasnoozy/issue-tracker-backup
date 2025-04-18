@@ -1,3 +1,4 @@
+//app/auth/page.tsx file
 'use client'
 import { usePathname, useSearchParams } from "next/navigation";
 import SigninForm from "./components/SigninForm";

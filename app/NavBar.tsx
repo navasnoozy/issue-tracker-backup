@@ -1,10 +1,9 @@
 "use client";
+import { Avatar, Box, Button, DropdownMenu, Flex } from "@radix-ui/themes";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Flex, Avatar, Box, DropdownMenu, Button } from "@radix-ui/themes";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaBug } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 
@@ -13,6 +12,8 @@ const NavBar = () => {
   const DropDownLinks = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
+    { label: "Create Account", href: "/auth?formType=signup" },
+    { label: "Signin", href: "/auth?formType=signin" },
   ];
   const currentPath = usePathname();
 
