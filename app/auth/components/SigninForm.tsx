@@ -18,6 +18,7 @@ import { RxInfoCircled } from "react-icons/rx";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { signinSchema, signInSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 //SINGIN PAGE
 const SigninForm = () => {
@@ -111,15 +112,15 @@ const SigninForm = () => {
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
           </Box>
 
-          <Button type="submit" className="text-center ">
+          <Button type="submit" className="text-center !mt-3">
             Signin
           </Button>
         </form>
 
         <Separator size='4'mt='4' />
         <Text align={"center"} size='3'>or signin with</Text>
-        <Button variant="outline">Google</Button>
-        <Button variant="outline">GitHub</Button>
+        <Button variant="outline"><FaGoogle />Google</Button>
+        <Button variant="outline"><FaGithub />GitHub</Button>
       </Flex>
     </FormProvider>
   );

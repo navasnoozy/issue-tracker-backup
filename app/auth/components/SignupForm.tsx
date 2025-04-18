@@ -62,14 +62,13 @@ const SignupForm = () => {
 
   return (
     <FormProvider {...methods}>
-     
-        <Flex
-          direction="column"
-          gap="3"
-          maxWidth="340px"
-          className="w-full p-7 border border-gray-200 rounded-lg"
-        >
-             <form onSubmit={onSubmit} className="space-y-2">
+      <Flex
+        direction="column"
+        gap="3"
+        maxWidth="340px"
+        className="w-full p-7 border border-gray-200 rounded-lg"
+      >
+        <form onSubmit={onSubmit} className="space-y-2 flex flex-col justify-center">
           <Heading size="5" mb="5" className="text-center">
             Create Account
           </Heading>
@@ -132,18 +131,12 @@ const SignupForm = () => {
             />
             <ErrorMessage>{errors.confirmPassword?.message}</ErrorMessage>
           </Box>
-          <Flex justify={"center"} mt="4">
-            <Button
-              type="submit"
-              size="3"
-              className="text-center "
-            >
-              Create Account
-            </Button>
-          </Flex>
-          </form>
-        </Flex>
-   
+
+          <Button type="submit" className="text-center !mt-3 ">
+            Create Account
+          </Button>
+        </form>
+      </Flex>
     </FormProvider>
   );
 };
