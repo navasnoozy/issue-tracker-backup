@@ -1,12 +1,11 @@
 // app/page.tsx
 
 import { Flex, Grid } from "@radix-ui/themes";
-import IssueSummary from "./IssueSummary";
-import LatestIssues from "./LatestIssues";
+import IssueSummary from "./dashboard/IssueSummary";
+import LatestIssues from "./dashboard/LatestIssues";
 import { prisma } from "@/prisma/client";
-import IssueChart from "./IssueChart";
+import IssueChart from "./dashboard/IssueChart";
 import { Metadata } from "next";
-
 
 async function Home() {
   const open = await prisma.issue.count({ where: { status: "OPEN" } });
@@ -22,21 +21,19 @@ async function Home() {
   };
 
   return (
-    <Grid columns={{initial:'1', md:'2' }} gap='3' width={'100%'}  >
-      <Flex direction='column' gap='3' height='100%' >
-      <IssueSummary statusCount={statusCount} />
-      <IssueChart statusCount={statusCount} />
+    <Grid columns={{ initial: "1", md: "2" }} gap="3" width={"100%"}>
+      <Flex direction="column" gap="3" height="100%">
+        <IssueSummary statusCount={statusCount} />
+        <IssueChart statusCount={statusCount} />
       </Flex>
       <LatestIssues />
     </Grid>
-    
   );
 }
 
-export const metadata : Metadata = {
-  title :'Issue Tracker - Dashboard',
-  description:'Summary of created Issues'
-}
+export const metadata: Metadata = {
+  title: "Issue Tracker - Dashboard",
+  description: "Summary of created Issues",
+};
 
 export default Home;
-
