@@ -1,14 +1,16 @@
-'use client';
-import { Avatar, Box, DropdownMenu } from '@radix-ui/themes';
-import { useSession, signOut } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+"use client";
+import { Avatar, Box, Button, DropdownMenu } from "@radix-ui/themes";
+import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const UserProfile = () => {
   const { data: session, status } = useSession();
+  console.log(status);
+
   const currentPath = usePathname();
 
-  if (status === 'unauthenticated' && currentPath !== '/auth')
+  if (status === "unauthenticated" && currentPath !== "/auth")
     return (
       <Box className="space-x-2">
         <Link className="text-gray-600" href="/auth?formType=signup">
@@ -20,17 +22,19 @@ const UserProfile = () => {
       </Box>
     );
 
-  if (status === 'authenticated')
+  if (status === "authenticated")
     return (
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="cursor-pointer">
-          <Avatar
-            size="2"
-            referrerPolicy="no-referrer"
-            src={session?.user?.image || ''}
-            radius="full"
-            fallback="A"
-          />
+        <DropdownMenu.Trigger type="button" className="cursor-pointer">
+          <Button  variant="ghost" radius="full" className="!p-0" >
+            <Avatar
+              size="2"
+              referrerPolicy="no-referrer"
+              src={session?.user?.image || ""}
+              radius="full"
+              fallback="A"
+            />
+          </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content variant="soft">
           <DropdownMenu.Label>{session.user?.email}</DropdownMenu.Label>
