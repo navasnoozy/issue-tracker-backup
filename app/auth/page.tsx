@@ -1,7 +1,7 @@
 //app/auth/page.tsx file
 'use client'
 import { usePathname, useSearchParams } from "next/navigation";
-import SigninForm from "./components/SigninForm";
+import SigninForm from "./components/SigningForm";
 import SignupForm from "./components/SignupForm";
 
 

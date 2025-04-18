@@ -1,4 +1,4 @@
-import generateTemplate from "@/app/components/verifyEmailTemplate";
+import generateTemplate from "@/app/auth/components/verifyEmailTemplate";
 import { prisma } from "@/prisma/client";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
   });
 
   const url = new URL("http://localhost:3000/auth/verify-Email");
-  url.searchParams.append('token',token);
-  url.searchParams.append('userId',user.id)
-  const hmtlContent: string = generateTemplate(user.name,url);
+  url.searchParams.append("token", token);
+  url.searchParams.append("userId", user.id);
+  const hmtlContent: string = generateTemplate(user.name, url);
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -80,9 +80,9 @@ export async function PATCH(req: NextRequest) {
     where: {
       id: userId,
     },
-    data:{
-      emailVerified: new Date()
-    }
+    data: {
+      emailVerified: new Date(),
+    },
   });
 
   if (!verifiedUser)
@@ -91,5 +91,8 @@ export async function PATCH(req: NextRequest) {
       { status: 404 }
     );
 
-    return NextResponse.json({message:'Verification Completed'},{status:200})
+  return NextResponse.json(
+    { message: "Verification Completed" },
+    { status: 200 }
+  );
 }

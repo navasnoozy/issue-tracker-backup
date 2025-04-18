@@ -25,18 +25,13 @@ import Link from "next/link";
 
 //SING-IN PAGE
 const SigninForm = () => {
-  const [status, setStatus] = useState<{
-    message?: string;
-    error?: boolean;
-  }>({
-    message: "",
-    error: false,
-  });
-  const [loading, setLoading] = useState(false);
-
   const route = useRouter();
 
-  const methods = useForm<signInSchemaType>({
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  //Handling form with React Hook Form and Zod
+  const methods = useForm({
     resolver: zodResolver(signinSchema),
   });
   const {
@@ -45,25 +40,26 @@ const SigninForm = () => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async ({ email, password }) => {
+    setLoading(true);
     try {
-      setStatus({ message: "Creating Account", error: false });
-      setLoading(true);
-      const res = await axios.post("/api/users", data);
-      setStatus({ message: res.data.message, error: false });
-      setLoading(false);
-      methods.reset();
-      route.push(`/auth/verify-Email?userId=${res.data.userId}`);
-    } catch (error: any) {
-      console.log("Error while creating user", error);
-      setStatus({
-        error: true,
-        message: error.response.data.message || "Something went wrong",
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
       });
+      if (result?.error) return setError(result.error);
+      if (!result?.ok) throw new Error("Something went wrong");
+      route.push("/");
+      route.refresh();
+    } catch (error) {
+      console.log("An Error occured while authenticating",error);
+      setError("An Error occured while authenticating");
     } finally {
       setLoading(false);
     }
   });
+  ///////////////////////////////////////////////
 
   return (
     <FormProvider {...methods}>
@@ -81,12 +77,12 @@ const SigninForm = () => {
             Signin
           </Heading>
 
-          {status?.message && (
-            <Callout.Root color={status.error ? "red" : "green"}>
+          {error && (
+            <Callout.Root color={error ? "red" : "green"}>
               <Callout.Icon>
                 {loading ? <Spinner /> : <RxInfoCircled />}
               </Callout.Icon>
-              <Callout.Text>{status.message}</Callout.Text>
+              <Callout.Text>{error}</Callout.Text>
             </Callout.Root>
           )}
 
