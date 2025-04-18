@@ -5,17 +5,49 @@ import { usePathname } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Flex, Avatar, Box, DropdownMenu, Button } from "@radix-ui/themes";
 import { FaSignInAlt } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
+
 
 const NavBar = () => {
+
+  const DropDownLinks = [
+    { label: "Dashboard", href: "/" },
+    { label: "Issues", href: "/issues" },
+  ];
+  const currentPath = usePathname();
+
   return (
     <Flex
       justify={"between"}
       className="flex justify-between w-full  border-b   border-gray-200  shadow-2xs px-6 h-14"
     >
-      <Flex className="gap-6 items-center">
+      <Flex className="!hidden lg:!flex gap-6 items-center">
         <LogoIcon />
         <NavLinks />
       </Flex>
+
+      <Flex className="lg:!hidden items-center">
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger >
+          <Button variant="ghost">
+          <GiHamburgerMenu size="25" />
+          </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+          {DropDownLinks.map((link) => {
+        return (
+          <DropdownMenu.Item asChild key={link.href} >
+            <Link
+              href={link.href}>
+              {link.label}
+            </Link>
+          </DropdownMenu.Item>
+        );
+      })}
+          </DropdownMenu.Content>
+      </DropdownMenu.Root>
+      </Flex>
+
       <Flex className="items-center gap-6">
         <UserProfile />
       </Flex>
@@ -28,7 +60,7 @@ export default NavBar;
 //Logo icon////
 const LogoIcon = () => {
   return (
-    <Box className="hover:scale-210 transition-all cursor-pointer text-violet-700 ">
+    <Box className=" hover:scale-210 transition-all cursor-pointer text-violet-700 ">
       <FaBug />
     </Box>
   );
@@ -71,21 +103,17 @@ const UserProfile = () => {
   const { data: session, status } = useSession();
   const currentPath = usePathname();
 
-  if (status === "unauthenticated")
+  //IF USE NOT SIGNED IN SHOW CREATE AND SIGNIN
+  if (status === "unauthenticated" && currentPath !== "/auth")
     return (
       <Box className="space-x-2">
-        {currentPath !== "/auth" && (
-          <Link className=" text-gray-600" href={`/auth?formType=signup`}>
-            Create account
-          </Link>
-        )}
-        {currentPath !== "/auth" && (
-          <Link className=" text-gray-600" href={`/auth?formType=signin`}>
-            Signin
-          </Link>
-        )}
+        <Link className=" text-gray-600" href={`/auth?formType=signup`}>
+          Create account
+        </Link>
+        <Link className=" text-gray-600" href={`/auth?formType=signin`}>
+          Signin
+        </Link>
       </Box>
-
     );
 
   return (

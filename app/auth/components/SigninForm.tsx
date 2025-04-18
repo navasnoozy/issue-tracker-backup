@@ -20,8 +20,9 @@ import { signinSchema, signInSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
-//SINGIN PAGE
+//SING-IN PAGE
 const SigninForm = () => {
   const [status, setStatus] = useState<{
     message?: string;
@@ -118,10 +119,24 @@ const SigninForm = () => {
           </Button>
         </form>
 
-        <Separator size='4'mt='4' />
-        <Text align={"center"} size='3'>or signin with</Text>
-        <Button onClick={()=>signIn('google',{callbackUrl:`/`})} variant="outline"><FaGoogle />Google</Button>
-        <Button variant="outline"><FaGithub />GitHub</Button>
+        <Separator size="4" mt="4" />
+        <Text align={"center"} size="3">
+          or signin with
+        </Text>
+        <Button
+          onClick={() => signIn("google", { callbackUrl: `/` })}
+          variant="outline"
+        >
+          <FaGoogle />
+          Google
+        </Button>
+        <Button variant="outline">
+          <FaGithub />
+          GitHub
+        </Button>
+        <Flex align="center" gap="2" justify={"center"}>
+          <Link href={`/auth?formType=signup`}>Create an Account</Link>
+        </Flex>
       </Flex>
     </FormProvider>
   );

@@ -17,6 +17,7 @@ import { RxInfoCircled } from "react-icons/rx";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { signupSchema, signUpSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 //SINGUP PAGE
 const SignupForm = () => {
@@ -68,7 +69,10 @@ const SignupForm = () => {
         maxWidth="340px"
         className="w-full p-7 border border-gray-200 rounded-lg"
       >
-        <form onSubmit={onSubmit} className="space-y-2 flex flex-col justify-center">
+        <form
+          onSubmit={onSubmit}
+          className="space-y-2 flex flex-col justify-center"
+        >
           <Heading size="5" mb="5" className="text-center">
             Create Account
           </Heading>
@@ -135,7 +139,12 @@ const SignupForm = () => {
           <Button type="submit" className="text-center !mt-3 ">
             Create Account
           </Button>
+        
         </form>
+        <Flex align="center" gap="2">
+            <Text size="3">Already have an account?</Text>
+            <Link href={`/auth?formType=signin`}>Signin</Link>
+          </Flex>
       </Flex>
     </FormProvider>
   );
