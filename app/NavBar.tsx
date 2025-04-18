@@ -70,17 +70,22 @@ const UserProfile = () => {
   "use client";
   const { data: session, status } = useSession();
   const currentPath = usePathname();
-  console.log(currentPath);
 
   if (status === "unauthenticated")
     return (
-      <Box>
+      <Box className="space-x-2">
         {currentPath !== "/auth" && (
-          <Link className=" text-gray-600" href={`/auth`}>
+          <Link className=" text-gray-600" href={`/auth?formType=signup`}>
             Create account
           </Link>
         )}
+        {currentPath !== "/auth" && (
+          <Link className=" text-gray-600" href={`/auth?formType=signin`}>
+            Signin
+          </Link>
+        )}
       </Box>
+
     );
 
   return (

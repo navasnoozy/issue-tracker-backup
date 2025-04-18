@@ -19,6 +19,7 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { signinSchema, signInSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
 import { FaGoogle, FaGithub } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 
 //SINGIN PAGE
 const SigninForm = () => {
@@ -119,7 +120,7 @@ const SigninForm = () => {
 
         <Separator size='4'mt='4' />
         <Text align={"center"} size='3'>or signin with</Text>
-        <Button variant="outline"><FaGoogle />Google</Button>
+        <Button onClick={()=>signIn('google',{callbackUrl:`/`})} variant="outline"><FaGoogle />Google</Button>
         <Button variant="outline"><FaGithub />GitHub</Button>
       </Flex>
     </FormProvider>
