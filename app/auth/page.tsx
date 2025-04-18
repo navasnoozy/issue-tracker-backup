@@ -8,7 +8,6 @@ import SignupForm from "./components/SignupForm";
 const authPage = () => {
     const searchParams = useSearchParams();
     const params = searchParams.get('formType');
-    console.log(params);
     
   
 

@@ -99,7 +99,6 @@ export async function DELETE(req: NextRequest) {
     const id = req.nextUrl.searchParams.get("id");
 
     if (!id) {
-      console.log("No id Provided");
       const error = new Error("No id Provided");
       error.name = "NO_ID";
       throw error;
