@@ -53,7 +53,7 @@ const SigninForm = () => {
       route.push("/");
       route.refresh();
     } catch (error) {
-      console.log("An Error occured while authenticating",error);
+      console.log("An Error occured while authenticating", error);
       setError("An Error occured while authenticating");
     } finally {
       setLoading(false);
@@ -127,7 +127,10 @@ const SigninForm = () => {
           <FaGoogle />
           Google
         </Button>
-        <Button variant="outline">
+        <Button
+          onClick={() => signIn("github", { callbackUrl: `/` })}
+          variant="outline"
+        >
           <FaGithub />
           GitHub
         </Button>
