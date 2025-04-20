@@ -1,8 +1,8 @@
 import { prisma } from "@/prisma/client";
 import { Status } from "@prisma/client";
-import { Card, Flex, Text, Avatar } from "@radix-ui/themes";
+import { Card, Flex, Text, Avatar,  Grid  } from "@radix-ui/themes";
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import { ArrowUpRight, CheckCircle, Clock, AlertCircle} from "lucide-react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -47,7 +47,7 @@ const IssueSummary = async ({
   ];
 
   return (
-    <Flex gap="2" justify={"between"}>
+    <Grid columns={{sm:'3'}} gap="2" justify={"between"}>
       {summaryCards.map((card) => (
         <Link key={card.status} href={`/issues?status=${card.status}`}>
           <Card className={card.className} >
@@ -63,7 +63,7 @@ const IssueSummary = async ({
           </Card>
         </Link>
       ))}
-    </Flex>
+    </Grid>
   );
 };
 

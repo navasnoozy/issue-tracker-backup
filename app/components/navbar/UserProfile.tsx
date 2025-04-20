@@ -12,7 +12,7 @@ const UserProfile = () => {
 
   if (status === "unauthenticated" && currentPath !== "/auth")
     return (
-      <Box className="space-x-2">
+      <Box  className="space-x-2 !hidden lg:!block">
         <Link className="text-gray-600" href="/auth?formType=signup">
           Create account
         </Link>
