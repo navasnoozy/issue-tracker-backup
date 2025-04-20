@@ -1,3 +1,4 @@
+//app/issues/[id]/DeleteButton.tsx
 "use client";
 import { AlertDialog, Button, Flex, Spinner } from "@radix-ui/themes";
 import axios from "axios";
