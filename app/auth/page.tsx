@@ -1,22 +1,22 @@
 //app/auth/page.tsx file
-'use client'
-import { usePathname, useSearchParams } from "next/navigation";
+"use client";
+import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import SigninForm from "./components/SigningForm";
 import SignupForm from "./components/SignupForm";
 
-
 const authPage = () => {
-    const searchParams = useSearchParams();
-    const params = searchParams.get('formType');
-    
-  
+  const searchParams = useSearchParams();
+  const params = searchParams.get("formType");
+  const { status} = useSession();
+  const route = useRouter();
 
-  return (
-    <>
-   {params=== 'signin' ?  <SigninForm />: <SignupForm />}
-    
-    </>
-  )
+if(status === 'authenticated'){
+  route.push('/');
+  return
+}
+
+  return <>{params === "signin" ? <SigninForm /> : <SignupForm />}</>;
 };
 
 export default authPage;
