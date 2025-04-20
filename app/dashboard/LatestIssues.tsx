@@ -36,7 +36,7 @@ const LatestIssues = async ()=>{
                   {issue.assignToUser ? <Avatar
                     size="2"
                     referrerPolicy="no-referrer"
-                    src={issue.assignToUser?.image!}
+                    src={issue.assignToUser.image!}
                     radius="full"
                     fallback="No image"
                   /> :'Unassigned'}

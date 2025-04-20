@@ -1,5 +1,7 @@
 //app/auth/components/signinForm.tsx file
 "use client";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import { signinSchema } from "@/app/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -7,21 +9,18 @@ import {
   Callout,
   Flex,
   Heading,
+  Separator,
   Spinner,
   Text,
   TextField,
-  Separator,
 } from "@radix-ui/themes";
-import axios from "axios";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { RxInfoCircled } from "react-icons/rx";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import { signinSchema, signInSchemaType } from "@/app/validation";
-import { useRouter } from "next/navigation";
-import { FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { FaGithub, FaGoogle } from "react-icons/fa";
+import { RxInfoCircled } from "react-icons/rx";
 
 //SING-IN PAGE
 const SigninForm = () => {

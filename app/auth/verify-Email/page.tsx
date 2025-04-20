@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import SendMail from "../components/SendMail";
 import VerifyEmail from "../components/VerifyEmail";
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const token = searchParams.get("token");
@@ -17,4 +17,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

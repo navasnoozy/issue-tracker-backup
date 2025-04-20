@@ -1,14 +1,8 @@
 import {
   Box,
   Button,
-  Callout,
   Flex,
-  Heading,
-  Link,
-  Spinner,
-  TextField,
-  Text,
-  Skeleton,
+  Skeleton
 } from "@radix-ui/themes";
 
 const LoadingAuthPage = () => {

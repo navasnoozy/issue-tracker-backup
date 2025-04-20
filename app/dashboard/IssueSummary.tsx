@@ -1,8 +1,7 @@
-import { prisma } from "@/prisma/client";
 import { Status } from "@prisma/client";
-import { Card, Flex, Text, Avatar,  Grid  } from "@radix-ui/themes";
+import { Card, Flex, Grid, Text } from "@radix-ui/themes";
+import { AlertCircle, CheckCircle, Clock } from "lucide-react";
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle, Clock, AlertCircle} from "lucide-react";
 import { ReactNode } from "react";
 
 interface Props {

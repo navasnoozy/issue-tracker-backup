@@ -20,11 +20,13 @@ const Pagination = ({
   itemsPerPage,
   currentPage,
 }: Props) => {
+  const searchParams = useSearchParams();
+  const route = useRouter();
 
   const pageCount = Math.ceil(itemCount / itemsPerPage);
   if (pageCount <= 1) return;
-  const route = useRouter();
-  const searchParams = useSearchParams();
+
+
 
   const handleChange = (page: number) => {
     const params = new URLSearchParams(searchParams);

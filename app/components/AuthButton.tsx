@@ -2,7 +2,7 @@ import { Button } from "@radix-ui/themes";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const AuthButton = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const handleClick = () => {
     if (status === "unauthenticated") {

@@ -1,6 +1,7 @@
 import useUser from "@/app/hooks/userUser";
 import { Card, Heading, Spinner } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const VerifyEmail = ({
@@ -10,6 +11,7 @@ const VerifyEmail = ({
   token: string | null;
   userId: string | null;
 }) => {
+  const router = useRouter()
   const { data: user } = useUser(userId);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("Verifying Email...");
@@ -22,8 +24,12 @@ const VerifyEmail = ({
           userId,
         });
         setMessage(res.data.message);
+
+        setTimeout(() => {
+          router.push("/"); // Redirect to home after verification
+        }, 1500);
       } catch (error) {
-        console.log("Error verifying Email");
+        console.log("Error verifying Email",error);
         setMessage("Email verification failed. Please try again.");
       } finally {
         setLoading(false);

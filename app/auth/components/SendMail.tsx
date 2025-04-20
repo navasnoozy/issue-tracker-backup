@@ -2,7 +2,7 @@
 import useUser from "@/app/hooks/userUser";
 import { Button, Card, Heading, Spinner } from "@radix-ui/themes";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const SendMail = ({ userId }: { userId: string | null }) => {
   const { data: user } = useUser(userId);

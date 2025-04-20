@@ -24,7 +24,7 @@ const authOptions: AuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
           throw new Error("Missing email or password");
         }
@@ -58,12 +58,12 @@ const authOptions: AuthOptions = {
       signIn:'/auth'
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn() {
       return true; // Always allow sign in to proceed
     },
 
     // Use the session callback instead, which runs after the user is created
-    async session({ session, user, token }) {
+    async session({ session}) {
       if (session?.user?.email) {
         // Check if this is a Google or GitHub user and update emailVerified
         const user = await prisma.user.findUnique({

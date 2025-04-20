@@ -5,6 +5,13 @@ import { baseIssueSchema, patchIssueSchema } from "../../validation";
 import { Issue } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
+type CustomError = {
+  name?: string;
+  error?: {
+    code?: string;
+  };
+};
+
 // CREATE ISSUE ////////
 export async function POST(req: NextRequest) {
   const session = await getServerSession();
@@ -114,11 +121,13 @@ export async function DELETE(req: NextRequest) {
       message: "Issue Deleted Successfully",
       deletedIssue,
     });
-  } catch (error: any) {
-    if (error.name === "NO_ID")
+  } catch (error) {
+    const err = error as CustomError;
+
+    if (err.name === "NO_ID")
       return NextResponse.json({ error: "No id Provided" }, { status: 404 });
 
-    if (error.error.code === "P2025") {
+    if (err?.error?.code === "P2025") {
       return NextResponse.json({ error: "Issue not found" }, { status: 404 });
     }
 

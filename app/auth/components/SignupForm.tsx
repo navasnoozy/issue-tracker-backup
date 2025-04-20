@@ -21,6 +21,15 @@ import { signupSchema, signUpSchemaType } from "@/app/validation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+type customError = {
+     response?:{
+      data?:{
+        message:string
+      
+     }
+  }
+}
+
 //SINGUP PAGE
 const SignupForm = () => {
   const [status, setStatus] = useState<{
@@ -52,11 +61,12 @@ const SignupForm = () => {
       setLoading(false);
       methods.reset();
       route.push(`/auth/verify-Email?userId=${res.data.userId}`);
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as customError
       console.log("Error while creating user", error);
       setStatus({
         error: true,
-        message: error.response.data.message || "Something went wrong",
+        message: err.response?.data?.message|| "Something went wrong",
       });
     } finally {
       setLoading(false);

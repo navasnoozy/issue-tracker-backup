@@ -2,10 +2,9 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import SigninForm from "./components/SigningForm";
 import SignupForm from "./components/SignupForm";
-import { useEffect, useState } from "react";
-import delay from "delay";
 import LoadingAuthPage from "./loading";
 
 const AuthPage = () => {
@@ -20,7 +19,7 @@ const AuthPage = () => {
     if (status === "authenticated") {
       route.push("/");
     }
-  }, [status]);
+  }, [status,route]);
 
   if (status === "authenticated") {
     return <LoadingAuthPage />;

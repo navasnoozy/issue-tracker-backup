@@ -6,7 +6,20 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
-  const user = await req.json();
+  const { id, email } = await req.json();
+
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (existingUser?.emailVerified) {
+    return NextResponse.json(
+      { message: "Email id already verified" },
+      { status: 400 }
+    );
+  }
 
   const token = await crypto.randomBytes(32).toString("hex");
   const hashedToken = await bcrypt.hash(token, 10);
@@ -14,7 +27,7 @@ export async function POST(req: NextRequest) {
 
   await prisma.verificationToken.create({
     data: {
-      identifier: user.id,
+      identifier: id,
       token: hashedToken,
       expires,
     },
@@ -22,8 +35,8 @@ export async function POST(req: NextRequest) {
 
   const url = new URL("http://localhost:3000/auth/verify-Email");
   url.searchParams.append("token", token);
-  url.searchParams.append("userId", user.id);
-  const hmtlContent: string = generateTemplate(user.name, url);
+  url.searchParams.append("userId", id);
+  const hmtlContent: string = generateTemplate(existingUser?.name, url);
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -38,7 +51,7 @@ export async function POST(req: NextRequest) {
 
   const res = await transporter.sendMail({
     from: "issuetracker@gmail.com",
-    to: user.email,
+    to: email,
     subject: "Issue Tracker - verify your email id ✔",
     html: hmtlContent,
   });
