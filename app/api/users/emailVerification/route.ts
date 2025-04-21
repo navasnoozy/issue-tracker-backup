@@ -14,16 +14,23 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  
   if (existingUser?.emailVerified) {
     return NextResponse.json(
-      { message: "Email id already verified" },
-      { status: 400 }
+      { message: "Email id already verified" }
     );
   }
 
   const token = await crypto.randomBytes(32).toString("hex");
   const hashedToken = await bcrypt.hash(token, 10);
   const expires = new Date(Date.now() + 60 * 60 * 1000);
+
+//Delete old token if any
+  await prisma.verificationToken.deleteMany({
+    where: {
+      identifier:id
+    },
+  });
 
   await prisma.verificationToken.create({
     data: {
@@ -32,6 +39,8 @@ export async function POST(req: NextRequest) {
       expires,
     },
   });
+
+  
 
   const url = new URL("http://localhost:3000/auth/verify-Email");
   url.searchParams.append("token", token);
@@ -80,12 +89,9 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ message: "Token expired" }, { status: 410 });
   }
 
-  await prisma.verificationToken.delete({
+  await prisma.verificationToken.deleteMany({
     where: {
-      identifier_token: {
-        identifier: userId,
-        token: record.token,
-      },
+      identifier:userId
     },
   });
 

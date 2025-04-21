@@ -8,13 +8,15 @@ const SendMail = ({ userId }: { userId: string | null }) => {
   const { data: user } = useUser(userId);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(initialMessage);
+  const [buttonName, setButtonName] = useState('Send')
 
   const handleClick = async () => {
     try {
       setLoading(true);
-      await axios.post("/api/users/emailVerification", user);
+      const res = await axios.post("/api/users/emailVerification", user);
       setLoading(false);
-      setMessage(successMessage);
+      setMessage(res.data.message || successMessage);
+      setButtonName('Resend')
     } catch (error) {
       console.error("Error sending email:", error);
       setMessage("Failed to send email");
@@ -33,9 +35,7 @@ const SendMail = ({ userId }: { userId: string | null }) => {
             <span>Sending...</span>
             <Spinner />
           </>
-        ) : (
-          "Verify Email"
-        )}
+        ) : buttonName}
       </Button>
     </Card>
   );
