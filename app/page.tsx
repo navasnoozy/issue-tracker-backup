@@ -8,20 +8,25 @@ import IssueChart from "./dashboard/IssueChart";
 import { Metadata } from "next";
 
 async function Home() {
-  const open = await prisma.issue.count({ where: { status: "OPEN" } });
-  const inProgress = await prisma.issue.count({
-    where: { status: "IN_PROGRESS" },
-  });
-  const closed = await prisma.issue.count({ where: { status: "CLOSED" } });
+  let open = 0;
+  let inProgress = 0;
+  let closed = 0;
 
-  const statusCount = {
-    open: open,
-    inProgress: inProgress,
-    closed: closed,
-  };
+  try {
+    [open, inProgress, closed] = await Promise.all([
+      prisma.issue.count({ where: { status: "OPEN" } }),
+      prisma.issue.count({ where: { status: "IN_PROGRESS" } }),
+      prisma.issue.count({ where: { status: "CLOSED" } }),
+    ]);
+  } catch (error) {
+    console.error("Failed to fetch issue counts:", error);
+    // The default 0 will be used as value
+  }
+
+  const statusCount = { open, inProgress, closed };
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="3" width={"100%"}>
+    <Grid columns={{ initial: "1", md: "2" }} gap="3" width="100%">
       <Flex direction="column" gap="3" height="100%">
         <IssueSummary statusCount={statusCount} />
         <IssueChart statusCount={statusCount} />
@@ -30,6 +35,7 @@ async function Home() {
     </Grid>
   );
 }
+
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Dashboard",

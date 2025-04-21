@@ -7,10 +7,13 @@ import StatusBadge from "../components/issueStatusBadge";
 const LatestIssues = async ()=>{
     const latestIssues = await prisma.issue.findMany({
         take: 5,
+        orderBy: { createdAt: "desc" },
         include: {
           assignToUser: true,
         },
       });
+
+      if (!latestIssues) return  <Card >No issues found</Card>
 
     return (
           <Card >
@@ -36,9 +39,9 @@ const LatestIssues = async ()=>{
                   {issue.assignToUser ? <Avatar
                     size="2"
                     referrerPolicy="no-referrer"
-                    src={issue.assignToUser.image!}
+                    src={issue.assignToUser?.image ?? undefined}
                     radius="full"
-                    fallback="No image"
+                    fallback="?"
                   /> :'Unassigned'}
                 </Table.Cell>
               </Table.Row>

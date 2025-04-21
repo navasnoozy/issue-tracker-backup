@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { baseIssueSchema, patchIssueSchema } from "../../validation";
-import { Issue } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
 type CustomError = {
@@ -50,10 +49,8 @@ export async function POST(req: NextRequest) {
 
 //UPDATE ISSUE /////////
 export async function PATCH(req: NextRequest) {
-  // const session = await getServerSession();
-  // if (!session) return NextResponse.json({}, { status: 401 });
 
-  const body: Issue = await req.json();
+  const body = await req.json();
 
   const validate = patchIssueSchema.safeParse(body);
   const { id, title, description, status, assignToUserId } = body;
