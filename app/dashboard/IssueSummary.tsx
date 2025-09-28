@@ -48,9 +48,9 @@ const IssueSummary = async ({
 
   const getCardBackground = (status: Status) => {
     const backgrounds = {
-      OPEN: 'var(--status-open-container)',
-      IN_PROGRESS: 'var(--status-in-progress-container)',
-      CLOSED: 'var(--status-closed-container)'
+      OPEN: '#ff0000ff',
+      IN_PROGRESS: '#e69900ff ',
+      CLOSED: '#00d624ff'
     };
     return backgrounds[status];
   };
@@ -62,7 +62,8 @@ const IssueSummary = async ({
           <Card 
             style={{ 
               backgroundColor: getCardBackground(card.status),
-              borderColor: 'var(--md-sys-color-outline-variant)' 
+              borderColor: 'var(--md-sys-color-outline-variant)',
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
             }}
           >
             <Flex gap="2" align={"center"} wrap='nowrap'>
