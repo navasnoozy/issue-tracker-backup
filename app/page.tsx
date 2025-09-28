@@ -1,5 +1,8 @@
 // app/page.tsx
 
+export const dynamic = 'force-dynamic'
+
+
 import { Flex, Grid } from "@radix-ui/themes";
 import IssueSummary from "./dashboard/IssueSummary";
 import LatestIssues from "./dashboard/LatestIssues";
