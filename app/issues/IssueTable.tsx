@@ -3,9 +3,10 @@ import NextLink from "next/link";
 import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 import CustomLink from "../components/CustomLink";
 import StatusBadge from "../components/issueStatusBadge";
-import { Issue, Status } from "@prisma/client";
-import { prisma } from "@/prisma/client";
+
+import prisma  from "@/prisma/client";
 import { notFound } from "next/navigation";
+import { Issue, Status } from "@/prisma/generated/client";
 
 interface Props {
   searchParams: Promise<{

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "../../../prisma/client";
+
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { baseIssueSchema, patchIssueSchema } from "../../validation";
 import { getServerSession } from "next-auth";
+import prisma from "@/prisma/client";
 
 type CustomError = {
   name?: string;

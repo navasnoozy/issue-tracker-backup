@@ -2,7 +2,8 @@
 "use client";
 import dynamic from "next/dynamic";
 import IssueFormSkeleton from "./IssueFormSkeleton";
-import { Issue } from "@prisma/client";
+import { Issue } from "@/prisma/generated/client";
+
 const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
   ssr: false,
   loading: () => <IssueFormSkeleton />,

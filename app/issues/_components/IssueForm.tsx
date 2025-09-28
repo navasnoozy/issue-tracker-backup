@@ -3,8 +3,9 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import SelectStatus from "@/app/components/SelectStatus";
 import SimpleMDETextField from "@/app/components/SimpleMDETextField";
 import { IssueFormType, baseIssueSchema } from "@/app/validation";
+import { Issue } from "@/prisma/generated/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
+
 import { Box, Button, Callout, Spinner, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";

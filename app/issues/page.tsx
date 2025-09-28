@@ -1,11 +1,12 @@
-import { prisma } from "@/prisma/client";
-import { Issue, Status } from "@prisma/client";
+import  prisma  from "@/prisma/client";
+
 import { Button, Flex } from "@radix-ui/themes";
 import NextLink from "next/link";
 import Pagination from "../components/Pagination";
 import IssueStatusFilter from "./_components/IssueStatusFilter";
 import IssueTable from "./IssueTable";
 import { Metadata } from "next";
+import { Issue, Status } from "@/prisma/generated/client";
 
 
 interface Props {

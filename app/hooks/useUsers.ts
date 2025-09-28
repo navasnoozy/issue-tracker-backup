@@ -1,4 +1,5 @@
-import { User } from "@prisma/client";
+
+import { User } from "@/prisma/generated/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
