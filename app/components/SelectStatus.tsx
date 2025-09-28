@@ -45,18 +45,3 @@ const SelectStatus = ({ status }: { status?: Status }) => {
 
 export default SelectStatus;
 
-{
-  /* <Select.Root onValueChange={handleChange} defaultValue={status}>
-<Select.Trigger color={color} variant="soft" />
-<Select.Content>
-  <Select.Group>
-    <Select.Label>Status</Select.Label>
-    {Object.values(Status).map((statusValue) => (
-      <Select.Item key={statusValue} value={statusValue}>
-        {statusValue.replace("_", " ")}
-      </Select.Item>
-    ))}
-  </Select.Group>
-</Select.Content>
-</Select.Root> */
-}
