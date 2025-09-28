@@ -11,16 +11,19 @@ const NavLinks = () => {
   const currentPath = usePathname();
 
   return (
-    <ul className="flex gap-6 text-gray-600 items-center">
+    <ul className="flex gap-6 items-center">
       {links.map((link) => {
         const isActive = currentPath === link.href;
         return (
           <li key={link.href}>
             <Link
               href={link.href}
-              className={`nav-link ${
-                isActive ? 'active text-black' : ''
-              } transition-all duration-300`}
+              className={`nav-link transition-all duration-300`}
+              style={{ 
+                color: isActive 
+                  ? 'var(--md-sys-color-primary)' 
+                  : 'var(--md-sys-color-on-surface-variant)' 
+              }}
             >
               {link.label}
             </Link>

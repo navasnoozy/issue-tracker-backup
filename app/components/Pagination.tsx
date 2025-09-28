@@ -26,8 +26,6 @@ const Pagination = ({
   const pageCount = Math.ceil(itemCount / itemsPerPage);
   if (pageCount <= 1) return;
 
-
-
   const handleChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
 
@@ -63,7 +61,9 @@ const Pagination = ({
         <ChevronLeft size={24} />
       </Button>
 
-      <Text color="gray">{searchParams.get("page") || 1} of {pageCount}</Text>
+      <Text style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>
+        {searchParams.get("page") || 1} of {pageCount}
+      </Text>
 
       {/* Next page  */}
       <Button

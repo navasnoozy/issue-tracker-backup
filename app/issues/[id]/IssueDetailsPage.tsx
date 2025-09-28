@@ -14,11 +14,15 @@ const IssueDetailsPage = ({ issue }: { issue: Issue }) => {
 
         <Flex className="flex-col h-full ">
           <Text>
-            <span className="text-gray-500">Created At :</span>{" "}
+            <span style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>
+              Created At :
+            </span>{" "}
             {issue?.createdAt.toDateString()}
           </Text>
           <Text className="hidden md:block">
-            <span className="text-gray-500">Upated At :</span>{" "}
+            <span style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>
+              Updated At :
+            </span>{" "}
             {issue?.updatedAt.toDateString()}
           </Text>
         </Flex>

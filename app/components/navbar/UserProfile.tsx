@@ -12,11 +12,17 @@ const UserProfile = () => {
 
   if (status === "unauthenticated" && currentPath !== "/auth")
     return (
-      <Box  className="space-x-2 !hidden lg:!block">
-        <Link className="text-gray-600" href="/auth?formType=signup">
+      <Box className="space-x-2 !hidden lg:!block">
+        <Link 
+          href="/auth?formType=signup"
+          style={{ color: 'var(--md-sys-color-on-surface-variant)' }}
+        >
           Create account
         </Link>
-        <Link className="text-gray-600" href="/auth?formType=signin">
+        <Link 
+          href="/auth?formType=signin"
+          style={{ color: 'var(--md-sys-color-on-surface-variant)' }}
+        >
           Signin
         </Link>
       </Box>
@@ -26,7 +32,7 @@ const UserProfile = () => {
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger type="button" className="cursor-pointer">
-          <Button  variant="ghost" radius="full" className="!p-0" >
+          <Button variant="ghost" radius="full" className="!p-0">
             <Avatar
               size="2"
               referrerPolicy="no-referrer"

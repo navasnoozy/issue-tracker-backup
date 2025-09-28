@@ -22,7 +22,6 @@ const IssueTable = async ({ searchParams, filterByStatusValue }: Props) => {
   const itemsPerPage = 10;
   const pageNumber = parseInt(page) || 1;
 
-
     //Sorting
     const validDirections = ["asc", "desc"];
     const order = validDirections.includes(direction) ? direction : undefined;
@@ -52,8 +51,6 @@ const IssueTable = async ({ searchParams, filterByStatusValue }: Props) => {
     { label: "Created", value: "createdAt" },
   ];
   
-  
-
   if (!issues) notFound();
 
   return (
@@ -96,7 +93,11 @@ const IssueTable = async ({ searchParams, filterByStatusValue }: Props) => {
           <Table.Row>
             <Table.Cell justify={"center"} colSpan={4}>
               {" "}
-              <Text color="gray" weight="medium" align="center">
+              <Text 
+                weight="medium" 
+                align="center"
+                style={{ color: 'var(--md-sys-color-on-surface-variant)' }}
+              >
                 {filterByStatusValue
                   ? `No issues found with status "${filterByStatusValue}"`
                   : "Issue list is empty"}
@@ -126,6 +127,5 @@ const IssueTable = async ({ searchParams, filterByStatusValue }: Props) => {
     </Table.Root>
   );
 };
-
 
 export default IssueTable;

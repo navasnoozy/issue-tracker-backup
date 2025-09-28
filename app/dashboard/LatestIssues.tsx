@@ -1,8 +1,7 @@
 import { prisma } from "@/prisma/client";
-import { Card, Flex, Avatar, Table, Heading } from "@radix-ui/themes";
+import { Card, Flex, Avatar, Table, Heading, Text } from "@radix-ui/themes";
 import CustomLink from "../components/CustomLink";
 import StatusBadge from "../components/issueStatusBadge";
-
 
 const LatestIssues = async ()=>{
     const latestIssues = await prisma.issue.findMany({
@@ -35,14 +34,17 @@ const LatestIssues = async ()=>{
                   <StatusBadge status={issue.status} />
                   </Flex>
                 </Table.RowHeaderCell>
-                <Table.Cell className="text-gray-400">
+                <Table.Cell>
                   {issue.assignToUser ? <Avatar
                     size="2"
                     referrerPolicy="no-referrer"
                     src={issue.assignToUser?.image ?? undefined}
                     radius="full"
                     fallback="?"
-                  /> :'Unassigned'}
+                  /> :
+                  <Text style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Unassigned
+                  </Text>}
                 </Table.Cell>
               </Table.Row>
             ))}

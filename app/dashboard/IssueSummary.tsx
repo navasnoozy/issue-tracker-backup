@@ -26,36 +26,56 @@ const IssueSummary = async ({
       label: "Open",
       count: open,
       status: "OPEN",
-      className: "bg-red-200",
-      icon: <AlertCircle className="text-red-500" size={18} />,
+      className: "",
+      icon: <AlertCircle style={{ color: 'var(--status-open)' }} size={18} />,
     },
     {
       label: "In Progress",
       count: inProgress,
       status: "IN_PROGRESS",
-      className: "bg-yellow-200",
-      icon: <Clock className="text-yellow-600" size={18} />
+      className: "",
+      icon: <Clock style={{ color: 'var(--status-in-progress)' }} size={18} />
     },
     {
       label: "Closed",
       count: closed,
       status: "CLOSED",
-      className: "bg-green-200",
-      icon: <CheckCircle className="text-green-600" size={18} />
+      className: "",
+      icon: <CheckCircle style={{ color: 'var(--status-closed)' }} size={18} />
     },
   ];
+
+  const getCardBackground = (status: Status) => {
+    const backgrounds = {
+      OPEN: 'var(--status-open-container)',
+      IN_PROGRESS: 'var(--status-in-progress-container)',
+      CLOSED: 'var(--status-closed-container)'
+    };
+    return backgrounds[status];
+  };
 
   return (
     <Grid columns={{sm:'3'}} gap="2" justify={"between"}>
       {summaryCards.map((card) => (
         <Link key={card.status} href={`/issues?status=${card.status}`}>
-          <Card className={card.className} >
+          <Card 
+            style={{ 
+              backgroundColor: getCardBackground(card.status),
+              borderColor: 'var(--md-sys-color-outline-variant)' 
+            }}
+          >
             <Flex gap="2" align={"center"} wrap='nowrap'>
                 <Text> {card.icon}</Text>
               <Text as="div" size="2" weight="bold" wrap='nowrap' >
                {card.label}
               </Text>
-              <Text className="w-8 h-8 border bg-white border-gray-200 rounded-full flex items-center justify-center">
+              <Text 
+                className="w-8 h-8 rounded-full flex items-center justify-center"
+                style={{ 
+                  backgroundColor: 'var(--md-sys-color-surface)',
+                  border: '1px solid var(--md-sys-color-outline-variant)' 
+                }}
+              >
                 {card.count}
               </Text>
             </Flex>
