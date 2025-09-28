@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
   
 
-  const url = new URL("http://localhost:3000/auth/verify-Email");
+  const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-Email`);
   url.searchParams.append("token", token);
   url.searchParams.append("userId", id);
   const hmtlContent: string = generateTemplate(existingUser?.name, url);
