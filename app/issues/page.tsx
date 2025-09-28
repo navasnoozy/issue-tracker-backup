@@ -1,4 +1,4 @@
-import  prisma  from "@/prisma/client";
+import prisma from "@/prisma/client";
 
 import { Button, Flex } from "@radix-ui/themes";
 import NextLink from "next/link";
@@ -8,7 +8,6 @@ import IssueTable from "./IssueTable";
 import { Metadata } from "next";
 import { Issue, Status } from "@/prisma/generated/client";
 
-
 interface Props {
   searchParams: Promise<{
     status: Status;
@@ -17,8 +16,6 @@ interface Props {
     page: string;
   }>;
 }
-
-
 
 //Issue Table List Page
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -41,9 +38,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
     <div className="space-y-5 max-w-7xl w-[100%] ">
       <Flex justify={"between"}>
         <IssueStatusFilter />
-        <Button>
-          <NextLink href={"/issues/addnewissue"}>Create Issue</NextLink>
-        </Button>
+
+        <NextLink href={"/issues/addnewissue"}>
+          {" "}
+          <Button>Create Issue </Button>
+        </NextLink>
       </Flex>
 
       <IssueTable
@@ -60,10 +59,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
   );
 };
 
-export const metadata : Metadata = {
-  title: 'Issue Tracker - List of Issues',
-  description: 'Table List of created Issues'
-}
+export const metadata: Metadata = {
+  title: "Issue Tracker - List of Issues",
+  description: "Table List of created Issues",
+};
 
 export default IssuesPage;
 
