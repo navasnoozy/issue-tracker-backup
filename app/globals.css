@@ -102,11 +102,7 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
-}
+
 
 @layer components {
   button {
@@ -146,4 +142,47 @@ body {
   --gray-6: var(--md-sys-color-outline-variant);
   --gray-9: var(--md-sys-color-on-surface-variant);
   --gray-11: var(--md-sys-color-on-surface);
+}
+
+
+/* ////// */
+/* global.css */
+.red-wave-background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #e9d35783 0%, #ff6a89 50%, #ff8fdd 100%);
+  overflow: hidden;
+}
+
+/* Wave layers */
+.red-wave-background::before,
+.red-wave-background::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 00px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: wave 10s infinite linear;
+}
+
+.red-wave-background::before {
+  bottom: 60px;
+}
+
+.red-wave-background::after {
+  bottom: 0;
+  animation-duration: 15s;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes wave {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }

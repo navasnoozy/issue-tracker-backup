@@ -9,8 +9,8 @@ const NavBar = () => {
   return (
     <Flex
       justify="between"
-      className="w-full border-b shadow-2xs px-6 h-14"
-      style={{ borderColor: 'var(--md-sys-color-outline-variant)' }}
+      className="m-2 rounded-md border-b shadow-2xs px-6 h-14"
+      style={{ borderColor: 'var(--md-sys-color-outline-variant)', backgroundColor:"rgba(255, 255, 255, 0.8)",}}
     >
       <Flex className="!hidden lg:!flex gap-6 items-center">
         <LogoIcon />
