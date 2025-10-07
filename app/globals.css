@@ -146,13 +146,13 @@
 
 
 /* ////// */
-/* global.css */
+/* Fixed scrolling background */
 .red-wave-background {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height */
   background: linear-gradient(180deg, #e9d35783 0%, #ff6a89 50%, #ff8fdd 100%);
-  overflow: hidden;
+  overflow-x: hidden; /* Changed from overflow: hidden to overflow-x: hidden */
 }
 
 /* Wave layers */
@@ -162,7 +162,7 @@
   position: absolute;
   left: 0;
   width: 200%;
-  height: 00px;
+  height: 100px; /* Fixed typo: was 00px */
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   animation: wave 10s infinite linear;
